@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BRAIN DASH PRO</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
+    <script src="questions.js"></script>
+</head>
+<body>
+    <div id="app">
+        <section id="lobby" class="screen active">
+            <div class="header"><h1 class="logo">BRAIN<span>DASH</span></h1></div>
+            <div class="card main-card">
+                <div class="id-section">
+                    <label>ERİŞİM KODUNUZ</label>
+                    <div id="display-id" class="code-text" onclick="copyID()">--- ---</div>
+                    <p class="pulse-text">Rakip bekleniyor...</p>
+                </div>
+                <div class="divider"><span>VEYA</span></div>
+                <div class="join-section">
+                    <input type="number" id="peer-id" placeholder="6 Haneli Kod">
+                    <button onclick="connectToFriend()" class="btn-primary">SAVAŞA KATIL</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="game-area" class="screen">
+            <div class="top-nav">
+                <div class="score-card"><span class="p-label">SİZ</span><span id="my-score" class="p-val">0</span></div>
+                <div class="game-info">
+                    <div id="round-info">1 / 10</div>
+                    <div id="diff-badge" class="badge">KOLAY</div>
+                </div>
+                <div class="score-card"><span class="p-label">RAKİP</span><span id="opp-score" class="p-val">0</span></div>
+            </div>
+            <div class="question-canvas">
+                <div class="q-wrapper">
+                    <h2 id="question-text">Soru Hazırlanıyor...</h2>
+                    <div id="hint-display"></div>
+                </div>
+            </div>
+            <div class="input-container">
+                <div id="msg-box"></div>
+                <input type="text" id="answer-input" placeholder="Cevabı yaz..." autocomplete="off">
+                <button onclick="getHint()" id="hint-btn">İPUCU AL</button>
+            </div>
+        </section>
+
+        <section id="result-screen" class="screen">
+            <div class="card result-card">
+                <h2 id="winner-text">OYUN BİTTİ</h2>
+                <div class="stats-grid">
+                    <div class="stat-item"><span>SİZ</span><b id="res-me">0</b></div>
+                    <div class="stat-item"><span>RAKİP</span><b id="res-opp">0</b></div>
+                </div>
+                <button onclick="location.reload()" class="btn-primary">YENİDEN BAŞLA</button>
+            </div>
+        </section>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
