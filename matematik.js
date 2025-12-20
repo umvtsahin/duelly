@@ -1,0 +1,53 @@
+const matematikData = {
+    easy: [
+        { q: "25 + 17 işleminin sonucu kaçtır?", options: ["32", "42", "45", "52"], a: "42" },
+        { q: "Bir düzine kaç adettir?", options: ["10", "12", "15", "20"], a: "12" },
+        { q: "Üçgenin kaç köşesi vardır?", options: ["2", "3", "4", "5"], a: "3" },
+        { q: "8 x 7 işleminin sonucu kaçtır?", options: ["48", "54", "56", "64"], a: "56" },
+        { q: "En küçük asal sayı kaçtır?", options: ["0", "1", "2", "3"], a: "2" },
+        { q: "100 sayısının yarısının yarısı kaçtır?", options: ["50", "30", "25", "20"], a: "25" },
+        { q: "9'un karesi kaçtır?", options: ["18", "72", "81", "90"], a: "81" },
+        { q: "Dik açının ölçüsü kaç derecedir?", options: ["45", "90", "180", "360"], a: "90" },
+        { q: "Bir saatin 1/4'ü kaç dakikadır?", options: ["10", "15", "20", "30"], a: "15" },
+        { q: "Hangi sayı hem çift hem de asaldır?", options: ["2", "4", "6", "8"], a: "2" },
+        { q: "120 / 4 işleminin sonucu nedir?", options: ["20", "30", "40", "50"], a: "30" },
+        { q: "Bir kenarı 5 cm olan karenin çevresi kaçtır?", options: ["10", "15", "20", "25"], a: "20" },
+        { q: "81 sayısının karekökü kaçtır?", options: ["7", "8", "9", "10"], a: "9" },
+        { q: "Negatif olmayan en küçük tam sayı kaçtır?", options: ["-1", "0", "1", "2"], a: "0" },
+        { q: "15'in 3 katının 5 fazlası kaçtır?", options: ["45", "50", "55", "60"], a: "50" },
+        { q: "Hangi geometrik şeklin köşesi yoktur?", options: ["Üçgen", "Kare", "Beşgen", "Daire"], a: "Daire" },
+        { q: "77 - 28 işleminin sonucu kaçtır?", options: ["45", "49", "51", "59"], a: "49" },
+        { q: "Çeyreği 8 olan sayının tamamı kaçtır?", options: ["16", "24", "32", "40"], a: "32" },
+        { q: "Bir haftada kaç saat vardır?", options: ["144", "160", "168", "180"], a: "168" },
+        { q: "Roma rakamıyla 'X' hangi sayıyı temsil eder?", options: ["1", "5", "10", "50"], a: "10" }
+    ],
+    medium: [
+        { q: "Pi sayısının virgülden sonraki ilk iki basamağı nedir?", options: ["12", "14", "16", "18"], a: "14" },
+        { q: "İç açıları toplamı 360 derece olan şekil hangisidir?", options: ["Üçgen", "Dörtgen", "Beşgen", "Altıgen"], a: "Dörtgen" },
+        { q: "Hangi sayı 3'e tam bölünemez?", options: ["111", "123", "241", "333"], a: "241" },
+        { q: "3 üzeri 4 (3^4) kaça eşittir?", options: ["27", "64", "81", "108"], a: "81" },
+        { q: "Yarıçapı 4 birim olan dairenin alanı kaçtır? (Pi=3 alınız)", options: ["12", "24", "48", "64"], a: "48" },
+        { q: "Bir üçgenin iç açılarından ikisi 40 ve 60 ise üçüncüsü kaçtır?", options: ["60", "70", "80", "90"], a: "80" },
+        { q: "0,25 sayısı yüzde kaça eşittir?", options: ["%2,5", "%25", "%50", "%250"], a: "%25" },
+        { q: "1, 1, 2, 3, 5, 8, ... dizisinin sonraki terimi kaçtır?", options: ["11", "12", "13", "15"], a: "13" },
+        { q: "İki basamaklı en büyük asal sayı kaçtır?", options: ["91", "93", "97", "99"], a: "97" },
+        { q: "Bir sınıfta 12 erkek 18 kız varsa, erkeklerin oranı kaçtır?", options: ["2/3", "2/5", "3/5", "1/2"], a: "2/5" },
+        { q: "x + 15 = 40 ise x kaçtır?", options: ["25", "30", "35", "45"], a: "25" },
+        { q: "Küpün kaç tane yüzü vardır?", options: ["4", "6", "8", "12"], a: "6" },
+        { q: "6!' (6 faktöriyel) kaça eşittir?", options: ["120", "360", "720", "5040"], a: "720" },
+        { q: "Hipotenüsü 5, dik kenarlarından biri 3 olan üçgenin diğer kenarı?", options: ["2", "4", "4.5", "6"], a: "4" },
+        { q: "EBOB(12, 18) kaçtır?", options: ["2", "3", "6", "12"], a: "6" }
+    ],
+    hard: [
+        { q: "Altın oran (phi) yaklaşık olarak kaçtır?", options: ["1,414", "1,618", "2,718", "3,141"], a: "1,618" },
+        { q: "Logaritma 10 tabanında 100 kaçtır?", options: ["1", "2", "10", "100"], a: "2" },
+        { q: "Euler sayısı (e) yaklaşık olarak kaçtır?", options: ["2,18", "2,71", "3,14", "1,61"], a: "2,71" },
+        { q: "Türev kavramını matematiğe kazandıran isimlerden biri?", options: ["Pascal", "Newton", "Tesla", "Euclid"], a: "Newton" },
+        { q: "Asal sayıların sonsuz olduğunu kanıtlayan antik matematikçi?", options: ["Pisagor", "Arşimet", "Öklid", "Thales"], a: "Öklid" },
+        { q: "1'den 100'e kadar olan sayıların toplamı kaçtır?", options: ["4950", "5000", "5050", "5100"], a: "5050" },
+        { q: "İntegral sembolünü (∫) ilk kullanan kimdir?", options: ["Leibniz", "Gauss", "Euler", "Fermat"], a: "Leibniz" },
+        { q: "Modern cebirin babası kabul edilen Harezmi'nin ünlü eseri?", options: ["El-Cebr", "Elementler", "Almagest", "Geometri"], a: "El-Cebr" },
+        { q: "Standart bir zarda karşılıklı yüzlerin toplamı kaçtır?", options: ["6", "7", "8", "9"], a: "7" },
+        { q: "İkilik (Binary) sayı sisteminde '101' kaça eşittir?", options: ["3", "5", "7", "10"], a: "5" }
+    ]
+};
