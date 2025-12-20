@@ -1,4 +1,4 @@
-const genelkulturData = {
+window.genelkulturData = {
     easy: [
         { q: "Türkiye'nin başkenti neresidir?", options: ["İstanbul", "Ankara", "İzmir", "Antalya"], a: "Ankara" },
         { q: "Gökkuşağı kaç renkten oluşur?", options: ["5", "6", "7", "8"], a: "7" },
