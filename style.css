@@ -1,33 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap');
 :root { --primary: #00f2ff; --secondary: #ff007f; --bg: #0b0e14; --card-bg: #161b22; }
-* { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
 body { margin: 0; background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif; height: 100vh; overflow: hidden; }
-.screen { display: none; height: 100%; width: 100%; flex-direction: column; padding: 20px; align-items: center; justify-content: space-between; }
+.screen { display: none; height: 100%; width: 100%; flex-direction: column; padding: 20px; align-items: center; justify-content: center; }
 .screen.active { display: flex; }
-.card { background: var(--card-bg); width: 100%; border-radius: 24px; padding: 30px; text-align: center; }
-.logo { font-size: 2.2rem; font-weight: 700; margin: 40px 0; }
+.header { margin-bottom: 50px; }
+.logo { font-size: 3rem; font-weight: 700; }
 .logo span { color: var(--primary); }
-.code-text { font-size: 3rem; color: var(--secondary); font-weight: 700; margin: 10px 0; letter-spacing: 5px; }
-input { width: 100%; background: #0d1117; border: 1px solid #30363d; border-radius: 12px; padding: 15px; color: #fff; text-align: center; font-size: 1.2rem; }
-.btn-primary { width: 100%; background: var(--primary); color: #000; border: none; border-radius: 12px; padding: 15px; font-weight: 700; }
-
-.top-nav { display: flex; width: 100%; justify-content: space-between; }
-.score-card { background: var(--card-bg); padding: 10px; border-radius: 15px; min-width: 80px; text-align: center; }
-.p-val { font-size: 1.5rem; font-weight: 700; color: var(--primary); display: block; }
-.badge { background: #238636; font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; }
-
-.question-canvas { flex: 1; display: flex; align-items: center; text-align: center; width: 100%; }
-#question-text { font-size: 1.5rem; width: 100%; }
-
-.options-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-bottom: 20px; }
-.opt-btn { background: var(--card-bg); border: 1px solid #333; color: #fff; padding: 15px 10px; border-radius: 12px; font-size: 1rem; cursor: pointer; transition: 0.2s; }
-.opt-btn:active { transform: scale(0.95); background: var(--primary); color: #000; }
+.card { background: var(--card-bg); width: 100%; border-radius: 24px; padding: 25px; text-align: center; max-width: 400px; }
+.category-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+.category-grid button { background: #0d1117; border: 1px solid #333; color: #fff; padding: 15px; border-radius: 12px; font-weight: 700; cursor: pointer; }
+.category-grid button:active { background: var(--primary); color: #000; }
+.btn-primary, .btn-secondary, .btn-back { width: 100%; padding: 18px; border-radius: 12px; border: none; font-weight: 700; font-size: 1.1rem; margin-top: 10px; cursor: pointer; }
+.btn-primary { background: var(--primary); color: #000; }
+.btn-secondary { background: #333; color: #fff; }
+.btn-back { background: transparent; color: #666; }
+.code-text { font-size: 2.5rem; color: var(--secondary); letter-spacing: 5px; margin: 10px 0; }
+.top-nav { display: flex; width: 100%; justify-content: space-between; position: absolute; top: 20px; padding: 0 20px; box-sizing: border-box; }
+.score-card { background: var(--card-bg); padding: 8px; border-radius: 12px; min-width: 70px; text-align: center; }
+.options-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-top: 20px; }
+.opt-btn { background: var(--card-bg); border: 1px solid #333; color: #fff; padding: 20px 10px; border-radius: 12px; font-weight: 700; cursor: pointer; }
 .opt-btn.hidden { opacity: 0; pointer-events: none; }
-
-.footer-controls { width: 100%; padding-bottom: 20px; text-align: center; }
-.btn-joker { width: 100%; background: #f1c40f; color: #000; border: none; padding: 12px; border-radius: 10px; font-weight: 700; margin-top: 10px; }
-.btn-joker:disabled { background: #333; color: #666; }
-#msg-box { height: 25px; margin-bottom: 5px; font-size: 0.9rem; font-weight: 700; }
-
-.pulse-text { animation: pulse 1.5s infinite; color: #888; }
-@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.btn-joker { width: 100%; background: #f1c40f; color: #000; border: none; padding: 12px; border-radius: 12px; font-weight: 700; margin-top: 20px; }
+.pulse-text { animation: pulse 1.5s infinite; color: #666; font-size: 0.8rem; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
