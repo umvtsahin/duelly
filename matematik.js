@@ -1,4 +1,4 @@
-const matematikData = {
+window.matematikData = {
     easy: [
         { q: "25 + 17 işleminin sonucu kaçtır?", options: ["32", "42", "45", "52"], a: "42" },
         { q: "Bir düzine kaç adettir?", options: ["10", "12", "15", "20"], a: "12" },
