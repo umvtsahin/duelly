@@ -5,55 +5,23 @@ let isHost = false;
 let gameStarted = false;
 
 let game = {
-    scoreMe: 0,
-    scoreOpp: 0,
-    round: 1,
-    max: 10,
-    currentQ: null,
-    hintsOpened: 0, // Kaç harf açıldığını takip eder
-    locked: false
+    scoreMe: 0, scoreOpp: 0, round: 1, max: 10,
+    currentQ: null, jokerUsed: false, locked: false
 };
 
-peer.on('open', id => {
-    document.getElementById('display-id').innerText = id;
-});
+peer.on('open', id => document.getElementById('display-id').innerText = id);
 
-// HOST TARAFINDA: Rakip bağlandığında
 peer.on('connection', c => {
     if (gameStarted) return;
-    conn = c;
-    isHost = true;
+    conn = c; isHost = true;
     setupBattle();
 });
 
-// KATILAN TARAFINDA
 function connectToFriend() {
     const target = document.getElementById('peer-id').value;
-    
-    if (target === myCode) {
-        alert("Kendi kodunla tek başına oynayamazsın kanka, rakip bul!");
-        return;
-    }
-    
-    if (target.length !== 6) {
-        alert("Geçerli bir 6 haneli kod gir!");
-        return;
-    }
-
-    document.getElementById('join-btn').innerText = "BAĞLANILIYOR...";
-    document.getElementById('join-btn').disabled = true;
-
+    if (target === myCode) return alert("Kendi kodunla tek başına oynayamazsın kanka, rakip bul!");
     conn = peer.connect(target);
-    
-    conn.on('open', () => {
-        setupBattle();
-    });
-
-    conn.on('error', err => {
-        alert("Bağlantı hatası! Kodun doğruluğundan emin ol.");
-        document.getElementById('join-btn').innerText = "SAVAŞA KATIL";
-        document.getElementById('join-btn').disabled = false;
-    });
+    conn.on('open', setupBattle);
 }
 
 function setupBattle() {
@@ -71,17 +39,12 @@ function setupBattle() {
             updateUI();
             flash("RAKİP BİLDİ!", "#ff007f");
             lockInput();
-            if(isHost) {
-                game.round++;
-                setTimeout(hostNextRound, 2000);
-            }
+            if(isHost) { game.round++; setTimeout(hostNextRound, 2000); }
         }
         if(data.type === 'end') showResults();
     });
 
-    if(isHost) {
-        setTimeout(hostNextRound, 1500);
-    }
+    if(isHost) setTimeout(hostNextRound, 1500);
 }
 
 function hostNextRound() {
@@ -90,92 +53,74 @@ function hostNextRound() {
         showResults();
         return;
     }
-    
     let diff = game.round <= 3 ? "easy" : (game.round <= 7 ? "medium" : "hard");
     const pool = questionBank[diff];
     const q = pool[Math.floor(Math.random() * pool.length)];
-    
     renderQuestion(q);
     conn.send({ type: 'next_question', val: q, round: game.round });
 }
 
 function renderQuestion(q) {
     game.currentQ = q;
-    game.hintsOpened = 0; 
     game.locked = false;
-    
     document.getElementById('question-text').innerText = q.q;
     document.getElementById('round-info').innerText = `${game.round} / ${game.max}`;
-    document.getElementById('hint-display').innerText = "";
     document.getElementById('msg-box').innerText = "";
     
+    // Şıkları oluştur
+    const grid = document.getElementById('options-grid');
+    grid.innerHTML = "";
+    q.options.forEach((opt, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.innerText = opt;
+        btn.onclick = () => checkAnswer(opt, btn);
+        grid.appendChild(btn);
+    });
+
     const badge = document.getElementById('diff-badge');
     badge.innerText = game.round <= 3 ? "KOLAY" : (game.round <= 7 ? "ORTA" : "ZOR");
-    badge.style.background = game.round <= 3 ? "#238636" : (game.round <= 7 ? "#f1c40f" : "#e74c3c");
-
-    const inp = document.getElementById('answer-input');
-    inp.value = ""; inp.disabled = false; inp.style.opacity = "1";
-    inp.focus();
 }
 
-document.getElementById('answer-input').onkeypress = (e) => {
-    if(e.key === 'Enter' && !game.locked) {
-        const val = e.target.value.trim().toLowerCase();
-        if(val === game.currentQ.a.toLowerCase()) {
-            lockInput();
-            
-            // PUANLAMA: 10 - (İpucu Sayısı * 2). Minimum 2 puan.
-            let earnedPts = 10 - (game.hintsOpened * 2);
-            if (earnedPts < 2) earnedPts = 2;
-
-            game.scoreMe += earnedPts;
-            updateUI();
-            flash(`+${earnedPts} PUAN!`, "#00f2ff");
-            conn.send({ type: 'point', pts: earnedPts });
-            
-            if(isHost) {
-                game.round++;
-                setTimeout(hostNextRound, 2000);
-            }
-        } else {
-            e.target.value = "";
-            flash("YANLIŞ!", "#555");
-        }
-    }
-};
-
-// SINIRSIZ İPUCU FONKSİYONU
-function getHint() {
-    if(game.locked || !game.currentQ) return;
+function checkAnswer(selected, btn) {
+    if(game.locked) return;
     
-    const answer = game.currentQ.a.replace(/\s/g, ''); // Boşlukları sayma
-    
-    // Eğer hala açılacak harf varsa
-    if(game.hintsOpened < answer.length) {
-        game.hintsOpened++;
-        
-        let displayStr = "";
-        for(let i = 0; i < answer.length; i++) {
-            if(i < game.hintsOpened) {
-                displayStr += answer[i].toUpperCase() + " ";
-            } else {
-                displayStr += "_ ";
-            }
-        }
-        
-        document.getElementById('hint-display').innerText = displayStr;
-        
-        // Ceza hesapla ve göster
-        let penaltyScore = 10 - (game.hintsOpened * 2);
-        if(penaltyScore < 2) penaltyScore = 2;
-        flash(`İPUCU! ŞU AN: ${penaltyScore} PUAN`, "#f1c40f");
+    if(selected === game.currentQ.a) {
+        lockInput();
+        btn.style.background = "#238636";
+        game.scoreMe += 10;
+        updateUI();
+        flash("+10 PUAN!", "#00f2ff");
+        conn.send({ type: 'point', pts: 10 });
+        if(isHost) { game.round++; setTimeout(hostNextRound, 2000); }
+    } else {
+        btn.style.background = "#ff007f";
+        flash("YANLIŞ!", "#ff007f");
+        btn.disabled = true;
     }
+}
+
+function useJoker() {
+    if(game.jokerUsed || game.locked) return;
+    
+    const btns = Array.from(document.querySelectorAll('.opt-btn'));
+    const wrongBtns = btns.filter(b => b.innerText !== game.currentQ.a);
+    
+    // Rastgele 2 tanesini sil
+    for(let i = 0; i < 2; i++) {
+        const randomIndex = Math.floor(Math.random() * wrongBtns.length);
+        wrongBtns[randomIndex].classList.add('hidden');
+        wrongBtns.splice(randomIndex, 1);
+    }
+    
+    game.jokerUsed = true;
+    document.getElementById('joker-btn').disabled = true;
+    document.getElementById('joker-btn').innerText = "JOKER KULLANILDI";
 }
 
 function lockInput() {
     game.locked = true;
-    const inp = document.getElementById('answer-input');
-    inp.disabled = true; inp.style.opacity = "0.3";
+    document.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
 }
 
 function updateUI() {
@@ -184,8 +129,8 @@ function updateUI() {
 }
 
 function flash(txt, col) {
-    const m = document.getElementById('msg-box');
-    m.innerText = txt; m.style.color = col;
+    document.getElementById('msg-box').innerText = txt;
+    document.getElementById('msg-box').style.color = col;
 }
 
 function showResults() {
@@ -193,10 +138,6 @@ function showResults() {
     document.getElementById('result-screen').classList.add('active');
     document.getElementById('res-me').innerText = game.scoreMe;
     document.getElementById('res-opp').innerText = game.scoreOpp;
-    const winTxt = document.getElementById('winner-text');
-    if(game.scoreMe > game.scoreOpp) winTxt.innerText = "ZAFER SİZİN!";
-    else if(game.scoreMe < game.scoreOpp) winTxt.innerText = "RAKİP KAZANDI!";
-    else winTxt.innerText = "BERABERE!";
 }
 
 function copyID() {
