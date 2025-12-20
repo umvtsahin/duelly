@@ -1,0 +1,53 @@
+const tarihData = {
+    easy: [
+        { q: "Osmanlı İmparatorluğu'nun kurucusu kimdir?", options: ["Osman Bey", "Orhan Bey", "1. Murat", "Ertuğrul Gazi"], a: "Osman Bey" },
+        { q: "Türkiye Cumhuriyeti hangi yıl ilan edildi?", options: ["1919", "1920", "1922", "1923"], a: "1923" },
+        { q: "İstanbul hangi padişah tarafından fethedildi?", options: ["Yavuz Sultan Selim", "Fatih Sultan Mehmet", "Kanuni", "2. Abdülhamid"], a: "Fatih Sultan Mehmet" },
+        { q: "Kurtuluş Savaşı nerede başladı?", options: ["Ankara", "Samsun", "İzmir", "Erzurum"], a: "Samsun" },
+        { q: "Atatürk'ün nüfusa kayıtlı olduğu il hangisidir?", options: ["Ankara", "İstanbul", "Gaziantep", "Selanik"], a: "Gaziantep" },
+        { q: "Cumhuriyetin ilanından sonraki ilk cumhurbaşkanı kimdir?", options: ["İsmet İnönü", "Mustafa Kemal Atatürk", "Celal Bayar", "Fevzi Çakmak"], a: "Mustafa Kemal Atatürk" },
+        { q: "Piramitler hangi medeniyete aittir?", options: ["Roma", "Yunan", "Mısır", "Sümer"], a: "Mısır" },
+        { q: "İlk Türk devletlerinde hükümdara verilen ünvan?", options: ["Sultan", "Han", "Padişah", "Kral"], a: "Han" },
+        { q: "Osmanlı Devleti'nin başkenti hiçbir zaman neresi olmamıştır?", options: ["Bursa", "Edirne", "İstanbul", "Konya"], a: "Konya" },
+        { q: "Anadolu'nun kapılarını Türklere açan savaş?", options: ["Malazgirt", "Miyakefalon", "Pasinler", "Niğbolu"], a: "Malazgirt" },
+        { q: "Hangisi bir Türk destanıdır?", options: ["İlyada", "Oğuz Kağan", "Şehname", "Gılgamış"], a: "Oğuz Kağan" },
+        { q: "Mustafa Kemal'e 'Atatürk' soyadı hangi yıl verildi?", options: ["1923", "1930", "1934", "1938"], a: "1934" },
+        { q: "Lale Devri hangi padişah döneminde yaşandı?", options: ["3. Ahmet", "4. Murat", "2. Mahmut", "1. Süleyman"], a: "3. Ahmet" },
+        { q: "Milli Mücadele'de ilk kurşun nerede atıldı?", options: ["İzmir", "Hatay", "Maraş", "Antep"], a: "Hatay" },
+        { q: "Fransız İhtilali hangi yıl gerçekleşti?", options: ["1776", "1789", "1815", "1848"], a: "1789" },
+        { q: "Türk tarihinin ilk anayasası hangisidir?", options: ["Kanun-i Esasi", "Teşkilat-ı Esasiye", "1924 Anayasası", "Sened-i İttifak"], a: "Kanun-i Esasi" },
+        { q: "Atatürk'ün 'Ordular, ilk hedefiniz Akdeniz'dir. İleri!' emrini verdiği savaş?", options: ["1. İnönü", "Sakarya", "Büyük Taarruz", "Çanakkale"], a: "Büyük Taarruz" },
+        { q: "Osmanlı'da ilk matbaayı kim kurdu?", options: ["İbrahim Müteferrika", "Katip Çelebi", "Hezarfen Ahmed", "Piri Reis"], a: "İbrahim Müteferrika" },
+        { q: "Mimar Sinan'ın 'Ustalık Eserim' dediği cami?", options: ["Süleymaniye", "Selimiye", "Şehzadebaşı", "Mihrimah Sultan"], a: "Selimiye" },
+        { q: "İstiklal Marşı hangi meclis döneminde kabul edildi?", options: ["1. TBMM", "2. TBMM", "Osmanlı Mebusan", "Kurucu Meclis"], a: "1. TBMM" }
+    ],
+    medium: [
+        { q: "Mondros Ateşkes Antlaşması hangi gemide imzalandı?", options: ["Yavuz", "Agamemnon", "Midilli", "Hamidiye"], a: "Agamemnon" },
+        { q: "Yeniçeri Ocağı'nı hangi padişah kaldırdı?", options: ["2. Mahmut", "3. Selim", "Abdülmecid", "2. Abdülhamid"], a: "2. Mahmut" },
+        { q: "Dünyanın bilinen en eski tapınağı nerededir?", options: ["Mısır", "Türkiye", "İran", "Irak"], a: "Türkiye" },
+        { q: "Osmanlı Devleti'nde halifelik hangi padişahla başladı?", options: ["Fatih", "Yavuz Sultan Selim", "Kanuni", "Çelebi Mehmet"], a: "Yavuz Sultan Selim" },
+        { q: "Preveze Deniz Zaferi'nin komutanı kimdir?", options: ["Piri Reis", "Barbaros Hayrettin", "Turgut Reis", "Seydi Ali Reis"], a: "Barbaros Hayrettin" },
+        { q: "Atatürk hangi savaş sonrası 'Gazi' ünvanını aldı?", options: ["Çanakkale", "Sakarya", "Dumlupınar", "Trablusgarp"], a: "Sakarya" },
+        { q: "İlk düzenli Türk ordusunu kuran kişi?", options: ["Mete Han", "Teoman", "Attila", "Bumin Kağan"], a: "Mete Han" },
+        { q: "Osmanlı'da ilk kağıt para hangi isimle basıldı?", options: ["Akçe", "Mecidiye", "Kaime", "Kuruş"], a: "Kaime" },
+        { q: "Amerika kıtasını keşfeden fakat burayı Hindistan sanan denizci?", options: ["Vasco da Gama", "Kristof Kolomb", "Macellan", "Amerigo Vespucci"], a: "Kristof Kolomb" },
+        { q: "Babür İmparatorluğu'nun başyapıtı Tac Mahal hangi ülkededir?", options: ["Pakistan", "İran", "Hindistan", "Afganistan"], a: "Hindistan" },
+        { q: "Cumhuriyet döneminin ilk muhalefet partisi?", options: ["Serbest Cumhuriyet Fırkası", "Terakkiperver Cumhuriyet Fırkası", "Demokrat Parti", "Millet Partisi"], a: "Terakkiperver Cumhuriyet Fırkası" },
+        { q: "Rönesans nerede başlamıştır?", options: ["Fransa", "İngiltere", "İtalya", "Almanya"], a: "İtalya" },
+        { q: "İzmir'in işgaline tepki olarak ilk kurşunu atan gazeteci?", options: ["Hasan Tahsin", "Sütçü İmam", "Şahin Bey", "Yörük Ali"], a: "Hasan Tahsin" },
+        { q: "Osmanlı Devleti hangi antlaşmayla fiilen sona ermiştir?", options: ["Sevr", "Mondros", "Mudanya", "Lozan"], a: "Mondros" },
+        { q: "Ankara hangi yıl başkent oldu?", options: ["1920", "1922", "1923", "1924"], a: "1923" }
+    ],
+    hard: [
+        { q: "Kadeş Antlaşması hangi iki devlet arasında imzalandı?", options: ["Hitit-Mısır", "Sümer-Akad", "Asur-Babil", "Roma-Kartaca"], a: "Hitit-Mısır" },
+        { q: "Osmanlı'da 'Vaka-i Hayriye' olarak adlandırılan olay nedir?", options: ["İstanbul'un Fethi", "Yeniçeri Ocağı'nın Kaldırılması", "Tanzimat Fermanı", "Meşrutiyetin İlanı"], a: "Yeniçeri Ocağı'nın Kaldırılması" },
+        { q: "Magna Carta hangi yıl imzalandı?", options: ["1066", "1189", "1215", "1299"], a: "1215" },
+        { q: "Atatürk'ün Şam'da kurduğu cemiyetin adı nedir?", options: ["Vatan ve Hürriyet", "İttihat ve Terakki", "Müdafaa-i Hukuk", "Karakol Cemiyeti"], a: "Vatan ve Hürriyet" },
+        { q: "Bizans İmparatorluğu'nun son imparatoru kimdir?", options: ["11. Konstantinos", "Jüstinyen", "Herakleios", "Aleksios Komnenos"], a: "11. Konstantinos" },
+        { q: "İlk bilgisayar olan ENIAC hangi savaş sırasında geliştirildi?", options: ["1. Dünya Savaşı", "2. Dünya Savaşı", "Soğuk Savaş", "Vietnam Savaşı"], a: "2. Dünya Savaşı" },
+        { q: "Osmanlı'nın Kuzey Afrika'daki son toprak parçasını kaybettiği antlaşma?", options: ["Uşi", "Londra", "Bükreş", "İstanbul"], a: "Uşi" },
+        { q: "Divan-ı Hümayun'u hangi padişah kurmuştur?", options: ["Osman Bey", "Orhan Bey", "1. Murat", "Fatih"], a: "Orhan Bey" },
+        { q: "Sokullu Mehmet Paşa hangi üç padişaha sadrazamlık yapmıştır?", options: ["Kanuni-2.Selim-3.Murat", "Fatih-2.Bayezid-Yavuz", "Yavuz-Kanuni-2.Selim", "3.Murat-3.Mehmet-1.Ahmet"], a: "Kanuni-2.Selim-3.Murat" },
+        { q: "Amerika Birleşik Devletleri'nin ilk başkanı kimdir?", options: ["Thomas Jefferson", "Benjamin Franklin", "George Washington", "Abraham Lincoln"], a: "George Washington" }
+    ]
+};
