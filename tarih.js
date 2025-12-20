@@ -1,4 +1,4 @@
-const tarihData = {
+window.tarihData = {
     easy: [
         { q: "Osmanlı İmparatorluğu'nun kurucusu kimdir?", options: ["Osman Bey", "Orhan Bey", "1. Murat", "Ertuğrul Gazi"], a: "Osman Bey" },
         { q: "Türkiye Cumhuriyeti hangi yıl ilan edildi?", options: ["1919", "1920", "1922", "1923"], a: "1923" },
