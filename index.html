@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BRAIN DASH PRO</title>
+    <title>BRAIN BATTLE PRO</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
     <script src="questions.js"></script>
@@ -11,7 +11,7 @@
 <body>
     <div id="app">
         <section id="lobby" class="screen active">
-            <div class="header"><h1 class="logo">BRAIN<span>DASH</span></h1></div>
+            <div class="header"><h1 class="logo">BRAIN<span>BATTLE</span></h1></div>
             <div class="card main-card">
                 <div class="id-section">
                     <label>ERİŞİM KODUNUZ</label>
@@ -35,16 +35,19 @@
                 </div>
                 <div class="score-card"><span class="p-label">RAKİP</span><span id="opp-score" class="p-val">0</span></div>
             </div>
+
             <div class="question-canvas">
                 <div class="q-wrapper">
-                    <h2 id="question-text">Savaş Başlıyor...</h2>
-                    <div id="hint-display"></div>
+                    <h2 id="question-text">Hazır mısın?</h2>
                 </div>
             </div>
-            <div class="input-container">
+
+            <div id="options-grid" class="options-container">
+                </div>
+
+            <div class="footer-controls">
                 <div id="msg-box"></div>
-                <input type="text" id="answer-input" placeholder="Cevabı yaz..." autocomplete="off">
-                <button onclick="getHint()" id="hint-btn">İPUCU AL</button>
+                <button onclick="useJoker()" id="joker-btn" class="btn-joker">50:50 JOKERİ (1)</button>
             </div>
         </section>
 
