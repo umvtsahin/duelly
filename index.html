@@ -6,11 +6,13 @@
     <title>BRAIN BATTLE PRO</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
+    
     <script src="genelkultur.js"></script>
     <script src="tarih.js"></script>
     <script src="matematik.js"></script>
-    <script src="kimya.js"></script>
-    <script src="fizik.js"></script>
+    <script src="bilim.js"></script>
+    <script src="sinema.js"></script>
+    <script src="spor.js"></script>
 </head>
 <body>
     <div id="app">
@@ -29,24 +31,26 @@
                     <button onclick="selectCategory('genelkultur')">GENEL KÜLTÜR</button>
                     <button onclick="selectCategory('tarih')">TARİH</button>
                     <button onclick="selectCategory('matematik')">MATEMATİK</button>
-                    <button onclick="selectCategory('kimya')">KİMYA</button>
-                    <button onclick="selectCategory('fizik')">FİZİK</button>
+                    <button onclick="selectCategory('bilim')">BİLİM</button>
+                    <button onclick="selectCategory('sinema')">SİNEMA</button>
+                    <button onclick="selectCategory('spor')">SPOR</button>
                 </div>
                 <div id="host-panel" style="display:none; margin-top:20px; border-top:1px solid #333; padding-top:20px;">
-                    <label>ERİŞİM KODUNUZ</label>
+                    <label>ODA KODUNUZ</label>
                     <div id="display-id" class="code-text" onclick="copyID()">--- ---</div>
                     <p class="pulse-text">Rakip bekleniyor...</p>
                 </div>
-                <button onclick="location.reload()" class="btn-back">İPTAL</button>
+                <button onclick="location.reload()" class="btn-back">VAZGEÇ</button>
             </div>
         </section>
 
         <section id="lobby-join" class="screen">
             <div class="card">
                 <h3>SAVAŞA KATIL</h3>
-                <input type="number" id="peer-id" placeholder="6 Haneli Kod">
-                <button onclick="connectToFriend()" class="btn-primary" id="join-btn">BAĞLAN</button>
-                <button onclick="location.reload()" class="btn-back">GERİ</button>
+                <p style="font-size: 0.8rem; color: #888; margin-bottom: 15px;">Arkadaşından gelen 6 haneli kodu gir</p>
+                <input type="number" id="peer-id" placeholder="Kod Buraya">
+                <button onclick="connectToFriend()" class="btn-primary" id="join-btn">BAĞLAN VE BAŞLA</button>
+                <button onclick="location.reload()" class="btn-back">GERİ DÖN</button>
             </div>
         </section>
 
@@ -55,7 +59,7 @@
                 <div class="score-card"><span class="p-label">SİZ</span><span id="my-score" class="p-val">0</span></div>
                 <div class="game-info">
                     <div id="round-info">1 / 10</div>
-                    <div id="cat-label" style="font-size: 10px; color: #00f2ff; text-transform: uppercase;">KATEGORİ</div>
+                    <div id="cat-label" class="cat-badge">KATEGORİ</div>
                 </div>
                 <div class="score-card"><span class="p-label">RAKİP</span><span id="opp-score" class="p-val">0</span></div>
             </div>
@@ -71,12 +75,12 @@
 
         <section id="result-screen" class="screen">
             <div class="card">
-                <h2>OYUN BİTTİ</h2>
+                <h2 id="winner-text">OYUN BİTTİ</h2>
                 <div class="stats-grid">
                     <div class="stat-item"><span>SİZ</span><b id="res-me">0</b></div>
                     <div class="stat-item"><span>RAKİP</span><b id="res-opp">0</b></div>
                 </div>
-                <button onclick="location.reload()" class="btn-primary">ANA MENÜ</button>
+                <button onclick="location.reload()" class="btn-primary" style="margin-top:20px;">ANA MENÜYE DÖN</button>
             </div>
         </section>
     </div>
