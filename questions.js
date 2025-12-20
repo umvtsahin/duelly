@@ -1,13 +1,24 @@
 const questionBank = {
     easy: [
-        { q: "UMUTUN AŞIK OLDUĞU KIZIN ADI NEDİR", options: ["HAVVA", "ABDULREZZAK", "EBU CEHİL", "MUTTALİP"], a: "HAVVA" },
-        { q: "UMUTUN AŞIK OLDUĞU KIZIN ADI NEDİR", options: ["HAVVA", "ABDULREZZAK", "EBU CEHİL", "MUTTALİP"], a: "HAVVA" },
-        { q: "UMUTUN AŞIK OLDUĞU KIZIN ADI NEDİR", options: ["HAVVA", "ABDULREZZAK", "EBU CEHİL", "MUTTALİP"], a: "HAVVA" },
-        { q: "UMUTUN AŞIK OLDUĞU KIZIN ADI NEDİR", options: ["HAVVA", "ABDULREZZAK", "EBU CEHİL", "MUTTALİP"], a: "HAVVA" },
-        { q: "UMUTUN AŞIK OLDUĞU KIZIN ADI NEDİR", options: ["HAVVA", "ABDULREZZAK", "EBU CEHİL", "MUTTALİP"], a: "HAVVA" },
-        { q: "UMUTUN AŞIK OLDUĞU KIZIN ADI NEDİR", options: ["HAVVA", "ABDULREZZAK", "EBU CEHİL", "MUTTALİP"], a: "HAVVA" },
-        { q: "UMUTUN AŞIK OLDUĞU KIZIN ADI NEDİR", options: ["HAVVA", "ABDULREZZAK", "EBU CEHİL", "MUTTALİP"], a: "HAVVA" },
-        { q: "UMUTUN AŞIK OLDUĞU KIZIN ADI NEDİR", options: ["HAVVA", "ABDULREZZAK", "EBU CEHİL", "MUTTALİP"], a: "HAVVA" },        
+        { q: "Türkiye'nin başkenti neresidir?", options: ["İstanbul", "Ankara", "İzmir", "Antalya"], a: "Ankara" },
+        { q: "Gökkuşağı kaç renkten oluşur?", options: ["5", "6", "7", "8"], a: "7" },
+        { q: "Dünyanın uydusu hangisidir?", options: ["Güneş", "Mars", "Ay", "Venüs"], a: "Ay" },
+        { q: "Haftanın ilk günü hangisidir?", options: ["Cumartesi", "Pazartesi", "Salı", "Pazar"], a: "Pazartesi" },
+        { q: "İstiklal Marşı'nın yazarı kimdir?", options: ["Ziya Gökalp", "Namık Kemal", "M. Akif Ersoy", "Reşat Nuri"], a: "M. Akif Ersoy" },
+        { q: "Üçgenin iç açılarının toplamı kaçtır?", options: ["90", "180", "360", "270"], a: "180" },
+        { q: "Hangi hayvan 'hav hav' der?", options: ["Kedi", "At", "Köpek", "Kuş"], a: "Köpek" },
+        { q: "Sütün rengi nedir?", options: ["Sarı", "Mavi", "Beyaz", "Yeşil"], a: "Beyaz" },
+        { q: "Ekmek hangi tahıldan yapılır?", options: ["Mısır", "Arpa", "Buğday", "Yulaf"], a: "Buğday" },
+        { q: "Pamuk Prenses kaç cüceyle yaşar?", options: ["5", "6", "7", "8"], a: "7" },
+        { q: "Güneş hangi yönden doğar?", options: ["Batı", "Kuzey", "Doğu", "Güney"], a: "Doğu" },
+        { q: "Dört kere dört kaç eder?", options: ["12", "16", "20", "24"], a: "16" },
+        { q: "Hangisi bir kış meyvesidir?", options: ["Karpuz", "Portakal", "Kiraz", "Şeftali"], a: "Portakal" },
+        { q: "Uçağı kim kullanır?", options: ["Kaptan", "Şoför", "Pilot", "Makinist"], a: "Pilot" },
+        { q: "Mıknatıs hangisini çeker?", options: ["Plastik", "Tahta", "Demir", "Cam"], a: "Demir" },
+        { q: "Cumhuriyet kaç yılında ilan edildi?", options: ["1919", "1920", "1922", "1923"], a: "1923" },
+        { q: "Türk bayrağında hangi renkler vardır?", options: ["Mavi-Beyaz", "Kırmızı-Beyaz", "Yeşil-Beyaz", "Sarı-Kırmızı"], a: "Kırmızı-Beyaz" },
+        { q: "Hangisi bir iletişim aracıdır?", options: ["Televizyon", "Çekiç", "Süpürge", "Tencere"], a: "Televizyon" },
+        { q: "Bal arıları ne üretir?", options: ["Süt", "Bal", "Peynir", "Reçel"], a: "Bal" },
         { q: "Futbol maçında bir takım kaç kişidir?", options: ["9", "10", "11", "12"], a: "11" }
     ],
     medium: [
@@ -55,4 +66,3 @@ const questionBank = {
         { q: "İnsan kalbi günde yaklaşık kaç kez atar?", options: ["50 bin", "75 bin", "100 bin", "150 bin"], a: "100 bin" }
     ]
 };
-
