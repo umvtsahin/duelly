@@ -50,7 +50,7 @@ function connectToFriend() {
     });
 
     conn.on('error', err => {
-        alert("Bağlantı hatası!");
+        alert("Bağlantı hatası! Kodun doğruluğundan emin ol.");
         document.getElementById('join-btn').innerText = "SAVAŞA KATIL";
         document.getElementById('join-btn').disabled = false;
     });
@@ -101,7 +101,7 @@ function hostNextRound() {
 
 function renderQuestion(q) {
     game.currentQ = q;
-    game.hintsOpened = 0; // İpucu sayacını sıfırla
+    game.hintsOpened = 0; 
     game.locked = false;
     
     document.getElementById('question-text').innerText = q.q;
@@ -121,10 +121,10 @@ function renderQuestion(q) {
 document.getElementById('answer-input').onkeypress = (e) => {
     if(e.key === 'Enter' && !game.locked) {
         const val = e.target.value.trim().toLowerCase();
-        if(val === game.currentQ.a) {
+        if(val === game.currentQ.a.toLowerCase()) {
             lockInput();
             
-            // Puanlama: 10 puandan başla, her ipucu için 2 düş. Minimum 2 puan.
+            // PUANLAMA: 10 - (İpucu Sayısı * 2). Minimum 2 puan.
             let earnedPts = 10 - (game.hintsOpened * 2);
             if (earnedPts < 2) earnedPts = 2;
 
@@ -144,28 +144,31 @@ document.getElementById('answer-input').onkeypress = (e) => {
     }
 };
 
+// SINIRSIZ İPUCU FONKSİYONU
 function getHint() {
-    if(game.locked) return;
+    if(game.locked || !game.currentQ) return;
     
-    const targetA = game.currentQ.a;
-    // Eğer tüm harfler açılmadıysa bir harf daha aç
-    if(game.hintsOpened < targetA.length) {
+    const answer = game.currentQ.a.replace(/\s/g, ''); // Boşlukları sayma
+    
+    // Eğer hala açılacak harf varsa
+    if(game.hintsOpened < answer.length) {
         game.hintsOpened++;
         
-        let displayHint = "";
-        for(let i=0; i < targetA.length; i++) {
+        let displayStr = "";
+        for(let i = 0; i < answer.length; i++) {
             if(i < game.hintsOpened) {
-                displayHint += targetA[i].toUpperCase() + " ";
+                displayStr += answer[i].toUpperCase() + " ";
             } else {
-                displayHint += "_ ";
+                displayStr += "_ ";
             }
         }
-        document.getElementById('hint-display').innerText = displayHint;
         
-        // Puan uyarısı
-        let currentPotential = 10 - (game.hintsOpened * 2);
-        if(currentPotential < 2) currentPotential = 2;
-        flash(`İPUCU ALINDI! POTANSİYEL: ${currentPotential} PK`, "#f1c40f");
+        document.getElementById('hint-display').innerText = displayStr;
+        
+        // Ceza hesapla ve göster
+        let penaltyScore = 10 - (game.hintsOpened * 2);
+        if(penaltyScore < 2) penaltyScore = 2;
+        flash(`İPUCU! ŞU AN: ${penaltyScore} PUAN`, "#f1c40f");
     }
 }
 
