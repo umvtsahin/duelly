@@ -1,4 +1,4 @@
-widow.sporData = {
+window.sporData = {
     easy: [
         { q: "Bir futbol maçı normal sürede kaç dakikadır?", options: ["45", "60", "90", "120"], a: "90" },
         { q: "Basketbolda bir pota basketi (faul hariç) en fazla kaç sayı değerindedir?", options: ["1", "2", "3", "4"], a: "3" },
