@@ -16,12 +16,12 @@
                 <div class="id-section">
                     <label>ERİŞİM KODUNUZ</label>
                     <div id="display-id" class="code-text" onclick="copyID()">--- ---</div>
-                    <p class="pulse-text">Rakip bekleniyor...</p>
+                    <p class="pulse-text" id="waiting-status">Rakip bekleniyor...</p>
                 </div>
                 <div class="divider"><span>VEYA</span></div>
                 <div class="join-section">
                     <input type="number" id="peer-id" placeholder="6 Haneli Kod">
-                    <button onclick="connectToFriend()" class="btn-primary">SAVAŞA KATIL</button>
+                    <button onclick="connectToFriend()" class="btn-primary" id="join-btn">SAVAŞA KATIL</button>
                 </div>
             </div>
         </section>
@@ -37,7 +37,7 @@
             </div>
             <div class="question-canvas">
                 <div class="q-wrapper">
-                    <h2 id="question-text">Soru Hazırlanıyor...</h2>
+                    <h2 id="question-text">Savaş Başlıyor...</h2>
                     <div id="hint-display"></div>
                 </div>
             </div>
