@@ -4,8 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BRAIN BATTLE PRO</title>
-    <link rel="stylesheet" href="style.css">
     
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#00f2ff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="BrainBattle">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
+    <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
     
     <script src="genelkultur.js"></script>
@@ -36,7 +43,6 @@
                     <button onclick="selectCategory('sinema')">SİNEMA</button>
                     <button onclick="selectCategory('spor')">SPOR</button>
                 </div>
-                
                 <div id="host-panel" style="display:none; margin-top:20px; border-top:1px solid #333; padding-top:20px;">
                     <label>ODA KODUNUZ</label>
                     <div id="display-id" class="code-text" onclick="copyID()">--- ---</div>
@@ -49,8 +55,7 @@
         <section id="lobby-join" class="screen">
             <div class="card">
                 <h3>SAVAŞA KATIL</h3>
-                <p style="font-size: 0.8rem; color: #888; margin-bottom: 15px;">Arkadaşından gelen 6 haneli kodu gir</p>
-                <input type="number" id="peer-id" placeholder="Kod Buraya">
+                <input type="number" id="peer-id" placeholder="6 Haneli Kod">
                 <button onclick="connectToFriend()" class="btn-primary" id="join-btn">BAĞLAN VE BAŞLA</button>
                 <button onclick="location.reload()" class="btn-back">GERİ DÖN</button>
             </div>
@@ -82,11 +87,19 @@
                     <div class="stat-item"><span>SİZ</span><b id="res-me">0</b></div>
                     <div class="stat-item"><span>RAKİP</span><b id="res-opp">0</b></div>
                 </div>
-                <button onclick="location.reload()" class="btn-primary" style="margin-top:20px;">ANA MENÜYE DÖN</button>
+                <button onclick="location.reload()" class="btn-primary">TEKRAR OYNA</button>
             </div>
         </section>
-    </div>
 
+        <div id="pwa-prompt" class="pwa-guide">
+            <div class="pwa-content">
+                <span class="close-pwa" onclick="closePwa()">×</span>
+                <p id="pwa-text">Uygulama olarak yükle!</p>
+                <div id="pwa-instructions"></div>
+                <button id="pwa-install-btn" class="btn-primary" style="display:none; width:100%; margin-top:10px; font-size:0.9rem;">YÜKLE</button>
+            </div>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
