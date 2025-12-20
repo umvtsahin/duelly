@@ -1,4 +1,4 @@
-const sinemaData = {
+window.sinemaData = {
     easy: [
         { q: "Hababam Sınıfı'nda 'İnek Şaban' karakterini kim canlandırmıştır?", options: ["Tarık Akan", "Kemal Sunal", "Halit Akçatepe", "Münir Özkul"], a: "Kemal Sunal" },
         { q: "Titanik filminin başrolünde yer alan erkek oyuncu kimdir?", options: ["Brad Pitt", "Tom Cruise", "Leonardo DiCaprio", "Johnny Depp"], a: "Leonardo DiCaprio" },
