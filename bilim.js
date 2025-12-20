@@ -1,0 +1,53 @@
+const bilimData = {
+    easy: [
+        { q: "Suyun donma noktası kaç derecedir?", options: ["-10", "0", "10", "100"], a: "0" },
+        { q: "Vücudumuzun temel yapı taşı nedir?", options: ["Doku", "Organ", "Hücre", "Sistem"], a: "Hücre" },
+        { q: "Dünyaya en yakın yıldız hangisidir?", options: ["Kutup Yıldızı", "Ay", "Güneş", "Mars"], a: "Güneş" },
+        { q: "Havadaki oksijen oranı yaklaşık yüzde kaçtır?", options: ["%10", "%21", "%50", "%78"], a: "%21" },
+        { q: "Bitkilerin güneş ışığıyla besin üretmesine ne denir?", options: ["Solunum", "Terleme", "Fotosentez", "Mayalanma"], a: "Fotosentez" },
+        { q: "Yerçekimi kanununu kim keşfetmiştir?", options: ["Edison", "Newton", "Einstein", "Tesla"], a: "Newton" },
+        { q: "Dünyanın en dış katmanı hangisidir?", options: ["Manto", "Yer Kabuğu", "Çekirdek", "Magma"], a: "Yer Kabuğu" },
+        { q: "Işık mı daha hızlıdır ses mi?", options: ["Işık", "Ses", "İkisi de aynı", "Ortama göre değişir"], a: "Işık" },
+        { q: "Hangisi bir iç organımız değildir?", options: ["Mide", "Akciğer", "Deri", "Kalp"], a: "Deri" },
+        { q: "Depremin şiddetini ölçen cihaz hangisidir?", options: ["Barometre", "Sismograf", "Termometre", "Teleskop"], a: "Sismograf" },
+        { q: "Hangi gezegenin halkaları en belirgindir?", options: ["Mars", "Jüpiter", "Satürn", "Neptün"], a: "Satürn" },
+        { q: "Elektrik ampulünü kim icat etmiştir?", options: ["Tesla", "Edison", "Graham Bell", "Newton"], a: "Edison" },
+        { q: "Su döngüsünde suyun gaz haline geçmesine ne denir?", options: ["Yoğunlaşma", "Buharlaşma", "Donma", "Erime"], a: "Buharlaşma" },
+        { q: "Mıknatısın kaç kutbu vardır?", options: ["1", "2", "3", "4"], a: "2" },
+        { q: "En sert doğal madde hangisidir?", options: ["Demir", "Çelik", "Elmas", "Kuvars"], a: "Elmas" },
+        { q: "Hangisi bir omurgalı hayvandır?", options: ["Yengeç", "Sinek", "Balık", "Solucan"], a: "Balık" },
+        { q: "İnsan vücudunda kaç adet kemik bulunur? (Yetişkin)", options: ["150", "206", "300", "412"], a: "206" },
+        { q: "Güneş sistemindeki en büyük gezegen hangisidir?", options: ["Dünya", "Satürn", "Jüpiter", "Neptün"], a: "Jüpiter" },
+        { q: "Gökyüzünün mavi görünmesinin sebebi nedir?", options: ["Denizlerin yansıması", "Işığın saçılması", "Ozon tabakası", "Bulutlar"], a: "Işığın saçılması" },
+        { q: "Vücudumuzun enerji kaynağı olan temel besin grubu?", options: ["Protein", "Vitamin", "Karbonhidrat", "Mineral"], a: "Karbonhidrat" }
+    ],
+    medium: [
+        { q: "Periyodik tablodaki ilk element hangisidir?", options: ["Helyum", "Lityum", "Hidrojen", "Oksijen"], a: "Hidrojen" },
+        { q: "Kuduz aşısını kim bulmuştur?", options: ["Louis Pasteur", "Marie Curie", "Fleming", "Darwin"], a: "Louis Pasteur" },
+        { q: "DNA'nın yapısı nasıldır?", options: ["Tek zincir", "Daire", "Çift Sarmal", "Küp"], a: "Çift Sarmal" },
+        { q: "Ses boşlukta yayılır mı?", options: ["Evet", "Hayır", "Sadece çok yüksekse", "Ortama bağlı"], a: "Hayır" },
+        { q: "İnsan vücudundaki en büyük iç organ hangisidir?", options: ["Akciğer", "Kalp", "Karaciğer", "Böbrek"], a: "Karaciğer" },
+        { q: "Suyun kimyasal formülü nedir?", options: ["CO2", "H2O", "O2", "NaCl"], a: "H2O" },
+        { q: "Işık hızı saniyede yaklaşık kaç kilometredir?", options: ["100.000", "300.000", "500.000", "1.000.000"], a: "300.000" },
+        { q: "Penisilin'i kim keşfetmiştir?", options: ["Alexander Fleming", "Robert Koch", "Pasteur", "Mendel"], a: "Alexander Fleming" },
+        { q: "Hangisi bir asal gazdır?", options: ["Oksijen", "Azot", "Helyum", "Hidrojen"], a: "Helyum" },
+        { q: "Kanın pıhtılaşmasını sağlayan hücreler hangisidir?", options: ["Alyuvar", "Akyuvar", "Trombosit", "Plazma"], a: "Trombosit" },
+        { q: "Güneş sistemindeki en sıcak gezegen hangisidir?", options: ["Merkür", "Venüs", "Mars", "Jüpiter"], a: "Venüs" },
+        { q: "Kalıtım biliminin (Genetik) babası kimdir?", options: ["Darwin", "Mendel", "Lamarck", "Watson"], a: "Mendel" },
+        { q: "Hücrenin enerji santrali neresidir?", options: ["Ribozom", "Çekirdek", "Mitokondri", "Lizozom"], a: "Mitokondri" },
+        { q: "Maddenin 4. hali olarak kabul edilen hal hangisidir?", options: ["Sıvı", "Gaz", "Plazma", "Kristal"], a: "Plazma" },
+        { q: "Atmosferin en alt katmanı hangisidir?", options: ["Stratosfer", "Mezosfer", "Troposfer", "Termosfer"], a: "Troposfer" }
+    ],
+    hard: [
+        { q: "Modern fiziğin temeli olan Görelilik Kuramı kime aittir?", options: ["Newton", "Einstein", "Planck", "Hawking"], a: "Einstein" },
+        { q: "Mutlak sıfır noktası kaç santigrat derecedir?", options: ["-100", "-212", "-273.15", "-373.15"], a: "-273.15" },
+        { q: "Nobel ödülünü iki kez alan ilk bilim insanı?", options: ["Einstein", "Marie Curie", "Tesla", "Planck"], a: "Marie Curie" },
+        { q: "Vücudumuzdaki en küçük kemik (Üzengi) nerededir?", options: ["Burun", "Kulak", "El", "Ayak"], a: "Kulak" },
+        { q: "Kara delik kavramını matematiksel olarak ilk tanımlayan?", options: ["Newton", "Karl Schwarzschild", "Hawking", "Hubble"], a: "Karl Schwarzschild" },
+        { q: "Hücre bölünmesi sırasında kromozomların ayrıldığı evre?", options: ["Profaz", "Metafaz", "Anafaz", "Telofaz"], a: "Anafaz" },
+        { q: "Kuantum teorisinin babası sayılan bilim insanı?", options: ["Bohr", "Planck", "Heisenberg", "Schrödinger"], a: "Planck" },
+        { q: "Işığın hem dalga hem parçacık özelliği göstermesi?", options: ["Fotoelektrik", "Dualite", "Kırınım", "Yansıma"], a: "Dualite" },
+        { q: "İnsan genom projesi ne zaman tamamlanmıştır?", options: ["1990", "2000", "2003", "2010"], a: "2003" },
+        { q: "Evrenin genişlediğini kanıtlayan bilim insanı?", options: ["Galileo", "Kepler", "Edwin Hubble", "Sagan"], a: "Edwin Hubble" }
+    ]
+};
