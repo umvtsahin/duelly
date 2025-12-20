@@ -3,7 +3,7 @@ const peer = new Peer(myCode);
 let conn;
 let isHost = false;
 let gameStarted = false;
-let currentBank = null; // Seçilen kategori soruları buraya dolacak
+let currentBank = null;
 
 let game = {
     scoreMe: 0, scoreOpp: 0, round: 1, max: 10,
@@ -17,11 +17,9 @@ function showScreen(id) {
     document.getElementById(id).classList.add('active');
 }
 
-// HOST: Kategori seçtiğinde çalışır
 function selectCategory(catKey) {
-    // Örn: genelkulturData değişkenini window üzerinden bulur
     currentBank = window[catKey + "Data"];
-    if(!currentBank) return alert("Bu kategori dosyası henüz yüklenmedi!");
+    if(!currentBank) return alert("Hata: Kategori dosyası bulunamadı!");
     
     document.getElementById('cat-label').innerText = catKey;
     document.getElementById('host-panel').style.display = 'block';
@@ -34,10 +32,10 @@ function selectCategory(catKey) {
     });
 }
 
-// GUEST: Koda basıp bağlanınca çalışır
 function connectToFriend() {
     const target = document.getElementById('peer-id').value;
-    if (target === myCode) return alert("Kendi kodunla tek başına oynayamazsın!");
+    if (target.length !== 6) return alert("Geçerli bir 6 haneli kod girin!");
+    if (target === myCode) return alert("Kendi kodunuza bağlanamazsınız!");
     
     conn = peer.connect(target);
     conn.on('open', () => setupBattle());
@@ -49,7 +47,7 @@ function setupBattle() {
 
     conn.on('data', data => {
         if(data.type === 'init_cat') {
-            currentBank = window[data.cat + "Data"];
+            currentBank = window[data.cat.toLowerCase() + "Data"];
             document.getElementById('cat-label').innerText = data.cat;
         }
         if(data.type === 'next_question') {
@@ -124,13 +122,14 @@ function useJoker() {
     if(game.jokerUsed || game.locked) return;
     const btns = Array.from(document.querySelectorAll('.opt-btn'));
     const wrongBtns = btns.filter(b => b.innerText !== game.currentQ.a);
-    for(let i=0; i<2; i++){
+    for(let i=0; i<Math.min(2, wrongBtns.length); i++){
         const rnd = Math.floor(Math.random()*wrongBtns.length);
         wrongBtns[rnd].classList.add('hidden');
         wrongBtns.splice(rnd, 1);
     }
     game.jokerUsed = true;
     document.getElementById('joker-btn').disabled = true;
+    document.getElementById('joker-btn').innerText = "JOKER TÜKENDİ";
 }
 
 function lockInput() {
@@ -152,9 +151,13 @@ function showResults() {
     showScreen('result-screen');
     document.getElementById('res-me').innerText = game.scoreMe;
     document.getElementById('res-opp').innerText = game.scoreOpp;
+    const winTxt = document.getElementById('winner-text');
+    if(game.scoreMe > game.scoreOpp) winTxt.innerText = "ZAFER SENİN!";
+    else if(game.scoreMe < game.scoreOpp) winTxt.innerText = "RAKİP KAZANDI!";
+    else winTxt.innerText = "DOSTLUK KAZANDI (BERABERE)";
 }
 
 function copyID() {
     navigator.clipboard.writeText(myCode);
-    alert("Kod kopyalandı!");
+    alert("Kod kopyalandı! Arkadaşına gönder.");
 }
