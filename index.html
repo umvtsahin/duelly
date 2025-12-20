@@ -6,23 +6,47 @@
     <title>BRAIN BATTLE PRO</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
-    <script src="questions.js"></script>
+    <script src="genelkultur.js"></script>
+    <script src="tarih.js"></script>
+    <script src="matematik.js"></script>
+    <script src="kimya.js"></script>
+    <script src="fizik.js"></script>
 </head>
 <body>
     <div id="app">
-        <section id="lobby" class="screen active">
-            <div class="header"><h1 class="logo">BRAIN<span>BATTLE</span></h1></div>
-            <div class="card main-card">
-                <div class="id-section">
+        <section id="main-menu" class="screen active">
+            <h1 class="logo">BRAIN<span>BATTLE</span></h1>
+            <div class="menu-container">
+                <button onclick="showScreen('lobby-create')" class="btn-primary">ODA KUR</button>
+                <button onclick="showScreen('lobby-join')" class="btn-secondary">SAVAŞA KATIL</button>
+            </div>
+        </section>
+
+        <section id="lobby-create" class="screen">
+            <div class="card">
+                <h3>KATEGORİ SEÇ</h3>
+                <div class="category-grid">
+                    <button onclick="selectCategory('genelkultur')">GENEL KÜLTÜR</button>
+                    <button onclick="selectCategory('tarih')">TARİH</button>
+                    <button onclick="selectCategory('matematik')">MATEMATİK</button>
+                    <button onclick="selectCategory('kimya')">KİMYA</button>
+                    <button onclick="selectCategory('fizik')">FİZİK</button>
+                </div>
+                <div id="host-panel" style="display:none; margin-top:20px; border-top:1px solid #333; padding-top:20px;">
                     <label>ERİŞİM KODUNUZ</label>
                     <div id="display-id" class="code-text" onclick="copyID()">--- ---</div>
-                    <p class="pulse-text" id="waiting-status">Rakip bekleniyor...</p>
+                    <p class="pulse-text">Rakip bekleniyor...</p>
                 </div>
-                <div class="divider"><span>VEYA</span></div>
-                <div class="join-section">
-                    <input type="number" id="peer-id" placeholder="6 Haneli Kod">
-                    <button onclick="connectToFriend()" class="btn-primary" id="join-btn">SAVAŞA KATIL</button>
-                </div>
+                <button onclick="location.reload()" class="btn-back">İPTAL</button>
+            </div>
+        </section>
+
+        <section id="lobby-join" class="screen">
+            <div class="card">
+                <h3>SAVAŞA KATIL</h3>
+                <input type="number" id="peer-id" placeholder="6 Haneli Kod">
+                <button onclick="connectToFriend()" class="btn-primary" id="join-btn">BAĞLAN</button>
+                <button onclick="location.reload()" class="btn-back">GERİ</button>
             </div>
         </section>
 
@@ -31,20 +55,14 @@
                 <div class="score-card"><span class="p-label">SİZ</span><span id="my-score" class="p-val">0</span></div>
                 <div class="game-info">
                     <div id="round-info">1 / 10</div>
-                    <div id="diff-badge" class="badge">KOLAY</div>
+                    <div id="cat-label" style="font-size: 10px; color: #00f2ff; text-transform: uppercase;">KATEGORİ</div>
                 </div>
                 <div class="score-card"><span class="p-label">RAKİP</span><span id="opp-score" class="p-val">0</span></div>
             </div>
-
             <div class="question-canvas">
-                <div class="q-wrapper">
-                    <h2 id="question-text">Hazır mısın?</h2>
-                </div>
+                <h2 id="question-text">Soru Hazırlanıyor...</h2>
             </div>
-
-            <div id="options-grid" class="options-container">
-                </div>
-
+            <div id="options-grid" class="options-container"></div>
             <div class="footer-controls">
                 <div id="msg-box"></div>
                 <button onclick="useJoker()" id="joker-btn" class="btn-joker">50:50 JOKERİ (1)</button>
@@ -52,13 +70,13 @@
         </section>
 
         <section id="result-screen" class="screen">
-            <div class="card result-card">
-                <h2 id="winner-text">OYUN BİTTİ</h2>
+            <div class="card">
+                <h2>OYUN BİTTİ</h2>
                 <div class="stats-grid">
                     <div class="stat-item"><span>SİZ</span><b id="res-me">0</b></div>
                     <div class="stat-item"><span>RAKİP</span><b id="res-opp">0</b></div>
                 </div>
-                <button onclick="location.reload()" class="btn-primary">YENİDEN BAŞLA</button>
+                <button onclick="location.reload()" class="btn-primary">ANA MENÜ</button>
             </div>
         </section>
     </div>
