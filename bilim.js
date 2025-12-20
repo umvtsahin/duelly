@@ -1,4 +1,4 @@
-const bilimData = {
+window.bilimData = {
     easy: [
         { q: "Suyun donma noktası kaç derecedir?", options: ["-10", "0", "10", "100"], a: "0" },
         { q: "Vücudumuzun temel yapı taşı nedir?", options: ["Doku", "Organ", "Hücre", "Sistem"], a: "Hücre" },
