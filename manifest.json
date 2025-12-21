@@ -1,22 +1,16 @@
 {
-  "short_name": "BrainBattle",
-  "name": "Brain Battle: Bilgi Savaşı",
+  "short_name": "DUELLY",
+  "name": "DUELLY Bilgi Düellosu",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "icon.png",
+      "sizes": "512x512",
       "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "icon-512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "purpose": "any maskable"
     }
   ],
-  "start_url": "index.html",
-  "background_color": "#0b0e14",
+  "start_url": "./index.html",
   "display": "standalone",
-  "scope": "/",
-  "theme_color": "#00f2ff",
-  "description": "AKTAŞ ISI TEKNİK Sunar: Arkadaşlarınla Bilgi Savaşı!"
+  "theme_color": "#000000",
+  "background_color": "#000000"
 }
