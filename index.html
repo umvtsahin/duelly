@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DUELIX</title>
-    <link rel="stylesheet" href="style.css?v=1.4">
-    <script src="script.js?v=1.4"></script>
+    <title>DUELIX | AKTAŞ ISI TEKNİK</title>
+    
+    <link rel="stylesheet" href="style.css?v=1.5">
+
+    <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
     
     <script src="genelkultur.js"></script>
     <script src="tarih.js"></script>
@@ -36,8 +38,9 @@
                     <button onclick="selectCategory('spor')">SPOR</button>
                 </div>
                 <div id="host-panel" style="display:none; margin-top:20px; border-top:1px solid #333; padding-top:20px;">
-                    <div id="display-id" class="code-text" onclick="copyID()">--- ---</div>
-                    <p style="color:var(--primary)">Rakip bekleniyor...</p>
+                    <label style="color:#888; font-size: 0.8rem;">ODA KODUNUZ</label>
+                    <div id="display-id" class="code-text" onclick="copyID()">------</div>
+                    <p style="color:var(--primary); font-size: 0.9rem;">Rakip bekleniyor...</p>
                 </div>
                 <button onclick="location.reload()" class="btn-back">Vazgeç</button>
             </div>
@@ -47,9 +50,9 @@
             <div class="card">
                 <h3>SAVAŞA KATIL</h3>
                 <div class="input-wrapper">
-                    <input type="number" id="peer-id" placeholder="6 Haneli Kod" oninput="if(this.value.length > 6) this.value = this.value.slice(0,6);">
+                    <input type="number" id="peer-id" placeholder="000000" oninput="if(this.value.length > 6) this.value = this.value.slice(0,6);">
                 </div>
-                <button onclick="connectToFriend()" class="btn-primary" id="join-btn">BAĞLAN</button>
+                <button onclick="connectToFriend()" class="btn-primary" id="join-btn">BAĞLAN VE BAŞLA</button>
                 <button onclick="location.reload()" class="btn-back">Geri Dön</button>
             </div>
         </section>
@@ -65,7 +68,7 @@
             </div>
 
             <div class="question-canvas">
-                <h2 id="question-text">Hazırlanıyor...</h2>
+                <h2 id="question-text">Yükleniyor...</h2>
             </div>
 
             <div id="options-grid" class="options-container"></div>
@@ -85,7 +88,7 @@
         <section id="result-screen" class="screen">
             <div class="card">
                 <h2 id="winner-text">OYUN BİTTİ</h2>
-                <div class="stats-grid" style="display:flex; justify-content:space-around; margin:20px 0;">
+                <div style="display:flex; justify-content:space-around; margin:20px 0;">
                     <div>SİZ<br><b id="res-me" style="font-size:2rem; color:var(--primary)">0</b></div>
                     <div>RAKİP<br><b id="res-opp" style="font-size:2rem; color:var(--secondary)">0</b></div>
                 </div>
@@ -95,7 +98,7 @@
 
         <div id="emoji-display" class="emoji-popup"></div>
     </div>
-    <script src="script.js?v=1.3"></script>
+
+    <script src="script.js?v=1.5"></script>
 </body>
 </html>
-
