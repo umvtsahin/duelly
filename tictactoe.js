@@ -1,50 +1,15 @@
-let tttBoard = Array(9).fill(null);
-let tttTurn = false;
-let mySym = 'X';
-
-function initTTT() {
-    tttBoard = Array(9).fill(null);
-    tttTurn = isHost;
-    mySym = isHost ? 'X' : 'O';
-    drawTTT();
+let tttB = Array(9).fill(null), tttT = false, myS = 'X';
+function initTTT() { tttB = Array(9).fill(null); tttT = isHost; myS = isHost ? 'X' : 'O'; drawT(); }
+function drawT() {
+    document.getElementById('game-tictactoe').innerHTML = `<h3>${tttT?'SIRA SENDE':'RAKİPTE'} (${myS})</h3><div class="ttt-grid">${tttB.map((v,i)=>`<div class="cell" onclick="moveT(${i})">${v||''}</div>`).join('')}</div>`;
 }
-
-function drawTTT() {
-    const area = document.getElementById('game-tictactoe');
-    area.innerHTML = `
-        <h3 class="status-text">${tttTurn ? 'SENİN SIRAN' : 'RAKİPTE...'} (${mySym})</h3>
-        <div class="ttt-grid">
-            ${tttBoard.map((v, i) => `<div class="cell" onclick="makeMove(${i})">${v||''}</div>`).join('')}
-        </div>
-    `;
+function moveT(i) {
+    if(!tttT || tttB[i]) return;
+    tttB[i] = myS; tttT = false; drawT();
+    sendData({type:'ttt_m', i:i}); checkT();
 }
-
-function makeMove(i) {
-    if(!tttTurn || tttBoard[i]) return;
-    tttBoard[i] = mySym;
-    tttTurn = false;
-    drawTTT();
-    sendData({ type: 'ttt_move', idx: i });
-    checkWin();
-}
-
-function handleTTT(msg) {
-    if(msg.type === 'ttt_move') {
-        tttBoard[msg.idx] = (mySym === 'X' ? 'O' : 'X');
-        tttTurn = true;
-        drawTTT();
-        checkWin();
-    }
-}
-
-function checkWin() {
-    const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-    for(let w of wins) {
-        if(tttBoard[w[0]] && tttBoard[w[0]] === tttBoard[w[1]] && tttBoard[w[0]] === tttBoard[w[2]]) {
-            alert(tttBoard[w[0]] === mySym ? "KAZANDIN!" : "KAYBETTİN!");
-            location.reload();
-            return;
-        }
-    }
-    if(!tttBoard.includes(null)) { alert("BERABERE!"); location.reload(); }
+function handleTTT(m) { if(m.type==='ttt_m'){ tttB[m.i]=(myS==='X'?'O':'X'); tttT=true; drawT(); checkT(); } }
+function checkT() {
+    const w = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+    for(let l of w) if(tttB[l[0]] && tttB[l[0]]===tttB[l[1]] && tttB[l[0]]===tttB[l[2]]) { alert(tttB[l[0]]===myS?"KAZANDIN":"KAYBETTİN"); location.reload(); }
 }
