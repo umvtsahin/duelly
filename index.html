@@ -3,16 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BRAIN BATTLE PRO</title>
+    <title>DUELIX</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#00f2ff">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="BrainBattle">
-    <link rel="apple-touch-icon" href="icon-192.png">
-
     <link rel="stylesheet" href="style.css">
+
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
     
     <script src="genelkultur.js"></script>
@@ -25,7 +23,7 @@
 <body>
     <div id="app">
         <section id="main-menu" class="screen active">
-            <h1 class="logo">BRAIN<span>BATTLE</span></h1>
+            <h1 class="logo">DUEL<span>IX</span></h1>
             <div class="menu-container">
                 <button onclick="showScreen('lobby-create')" class="btn-primary">ODA KUR</button>
                 <button onclick="showScreen('lobby-join')" class="btn-secondary">SAVAŞA KATIL</button>
@@ -70,13 +68,23 @@
                 </div>
                 <div class="score-card"><span class="p-label">RAKİP</span><span id="opp-score" class="p-val">0</span></div>
             </div>
+
             <div class="question-canvas">
                 <h2 id="question-text">Soru Hazırlanıyor...</h2>
             </div>
+
             <div id="options-grid" class="options-container"></div>
+
             <div class="footer-controls">
                 <div id="msg-box"></div>
                 <button onclick="useJoker()" id="joker-btn" class="btn-joker">50:50 JOKERİ (1)</button>
+            </div>
+
+            <div class="emoji-bar">
+                <button onclick="sendEmoji('😂')">😂</button>
+                <button onclick="sendEmoji('😢')">😢</button>
+                <button onclick="sendEmoji('😠')">😠</button>
+                <button onclick="sendEmoji('😎')">😎</button>
             </div>
         </section>
 
@@ -91,12 +99,14 @@
             </div>
         </section>
 
+        <div id="emoji-display" class="emoji-popup"></div>
+
         <div id="pwa-prompt" class="pwa-guide">
             <div class="pwa-content">
                 <span class="close-pwa" onclick="closePwa()">×</span>
-                <p id="pwa-text">Uygulama olarak yükle!</p>
+                <p>Uygulamayı Ana Ekrana Ekle!</p>
                 <div id="pwa-instructions"></div>
-                <button id="pwa-install-btn" class="btn-primary" style="display:none; width:100%; margin-top:10px; font-size:0.9rem;">YÜKLE</button>
+                <button id="pwa-install-btn" class="btn-primary" style="display:none; width:100%; margin-top:10px;">YÜKLE</button>
             </div>
         </div>
     </div>
