@@ -23,17 +23,17 @@
         <section id="main-menu" class="screen active">
             <h1 class="logo">DUEL<span>LY</span></h1>
             <div class="menu-container">
-                <button onclick="openLobby('quiz')" class="menu-btn b-quiz">BİLGİ DÜELLOSU</button>
-                <button onclick="openLobby('tictactoe')" class="menu-btn b-ttt">TIC TAC TOE</button>
-                <button onclick="openLobby('hafiza')" class="menu-btn b-mem">HAFIZA OYUNU</button>
+                <button onclick="openLobby('quiz')" class="menu-btn b-quiz">🧠 BİLGİ DÜELLOSU</button>
+                <button onclick="openLobby('tictactoe')" class="menu-btn b-ttt">❌ TIC TAC TOE</button>
+                <button onclick="openLobby('hafiza')" class="menu-btn b-mem">🧩 HAFIZA OYUNU</button>
             </div>
         </section>
 
         <section id="lobby-screen" class="screen">
             <div class="glass-card">
-                <h2 id="lobby-title">LOBİ</h2>
-                <div id="quiz-options" style="display:none; width:100%;">
-                    <p>Kategori Seç:</p>
+                <h2 id="lobby-title" class="neon-text">LOBİ</h2>
+                <div id="quiz-options" style="display:none;">
+                    <p class="label">KATEGORİ SEÇ:</p>
                     <div class="cat-grid" id="cat-grid"></div>
                 </div>
                 <div class="conn-box">
@@ -52,8 +52,8 @@
 
         <section id="result-screen" class="screen">
             <div class="glass-card">
-                <h1 id="winner-text">OYUN BİTTİ</h1>
-                <button onclick="location.reload()" class="btn-main">ANA MENÜ</button>
+                <h1 id="winner-text">BİTTİ</h1>
+                <button onclick="location.reload()" class="btn-main">MENÜYE DÖN</button>
             </div>
         </section>
     </div>
