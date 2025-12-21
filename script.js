@@ -1,7 +1,8 @@
-// DUELLY v2.0
+// DUELLY v2.1 - Enhanced Competitive Scoring
 let myCode, peer, conn, isHost = false, currentBank = null;
 let game = { scoreMe: 0, scoreOpp: 0, round: 1, max: 10, currentQ: null, jokerUsed: false, locked: true };
 let usedQuestions = [], myAttempted = false, oppAttempted = false;
+let firstSolver = null;
 
 const sfxCorrect = new Audio('dogru.mp3'); 
 const sfxWrong = new Audio('yanlis.mp3');
@@ -17,15 +18,8 @@ window.onload = () => {
 function initGame() {
     myCode = Math.floor(100000 + Math.random() * 900000).toString();
     peer = new Peer(myCode);
-    peer.on('open', id => { 
-        const el = document.getElementById('display-id');
-        if(el) el.innerText = id; 
-    });
-    peer.on('connection', c => {
-        conn = c;
-        isHost = true;
-        handleConnection();
-    });
+    peer.on('open', id => { document.getElementById('display-id').innerText = id; });
+    peer.on('connection', c => { conn = c; isHost = true; handleConnection(); });
 }
 
 function showScreen(id) {
@@ -58,10 +52,20 @@ function handleConnection() {
     conn.on('data', rawData => {
         let data;
         try { data = (typeof rawData === 'string') ? JSON.parse(rawData) : rawData; } catch (e) { return; }
+        
         if(data.type === 'init_cat') currentBank = window[data.cat.toLowerCase() + "Data"];
         if(data.type === 'next_question') { resetRoundState(); game.round = data.round; renderQuestion(data.val); }
-        if(data.type === 'point') { game.scoreOpp += data.pts; updateUI(); game.locked = true; if(isHost) { game.round++; setTimeout(hostNextRound, 2000); } }
-        if(data.type === 'wrong_attempt') { oppAttempted = true; checkBothWrong(); }
+        if(data.type === 'point') {
+            game.scoreOpp += data.pts;
+            if(data.isFirst) firstSolver = 'opp';
+            updateUI();
+            oppAttempted = true;
+            checkRoundEnd();
+        }
+        if(data.type === 'wrong_attempt') {
+            oppAttempted = true;
+            checkRoundEnd();
+        }
         if(data.type === 'emoji') showEmoji(data.val);
         if(data.type === 'end') showResults();
     });
@@ -82,8 +86,9 @@ function hostNextRound() {
 }
 
 function resetRoundState() {
-    myAttempted = false; oppAttempted = false; game.locked = true;
-    const msg = document.getElementById('msg-box'); if(msg) msg.innerText = ""; 
+    myAttempted = false; oppAttempted = false; game.locked = true; firstSolver = null;
+    document.getElementById('msg-box').innerText = ""; 
+    document.getElementById('msg-box').style.color = "white";
 }
 
 function renderQuestion(q) {
@@ -101,13 +106,19 @@ function renderQuestion(q) {
             if(opt === game.currentQ.a) {
                 sfxCorrect.play().catch(()=>{});
                 btn.style.background = "#238636";
-                game.scoreMe += 10; updateUI(); game.locked = true;
-                safeSend({ type: 'point', pts: 10 });
-                if(isHost) { game.round++; setTimeout(hostNextRound, 2000); }
+                myAttempted = true;
+                let earned = (firstSolver === null) ? 15 : 5;
+                game.scoreMe += earned;
+                if(firstSolver === null) firstSolver = 'me';
+                updateUI();
+                safeSend({ type: 'point', pts: earned, isFirst: (firstSolver === 'me') });
+                checkRoundEnd();
             } else {
                 sfxWrong.play().catch(()=>{});
-                myAttempted = true; btn.style.background = "#ff007f";
-                safeSend({ type: 'wrong_attempt' }); checkBothWrong();
+                btn.style.background = "#ff007f";
+                myAttempted = true;
+                safeSend({ type: 'wrong_attempt' });
+                checkRoundEnd();
             }
         };
         grid.appendChild(btn);
@@ -115,10 +126,24 @@ function renderQuestion(q) {
     setTimeout(() => { document.querySelectorAll('.opt-btn').forEach(b => b.classList.add('show')); game.locked = false; }, 1500);
 }
 
-function checkBothWrong() {
+function checkRoundEnd() {
     if(myAttempted && oppAttempted) {
-        document.getElementById('msg-box').innerText = "KİMSE BİLEMEDİ!";
-        game.locked = true; if(isHost) { game.round++; setTimeout(hostNextRound, 2000); }
+        game.locked = true;
+        highlightCorrect();
+        if(isHost) { game.round++; setTimeout(hostNextRound, 3000); }
+    }
+}
+
+function highlightCorrect() {
+    document.querySelectorAll('.opt-btn').forEach(btn => {
+        if(btn.innerText === game.currentQ.a) {
+            btn.style.border = "3px solid #00ffcc";
+            btn.style.boxShadow = "0 0 15px #00ffcc";
+        }
+    });
+    if(firstSolver === null) {
+        document.getElementById('msg-box').innerText = "DOĞRU CEVAP: " + game.currentQ.a;
+        document.getElementById('msg-box').style.color = "#00ffcc";
     }
 }
 
@@ -130,7 +155,7 @@ function updateUI() {
 function sendEmoji(e) { showEmoji(e); safeSend({ type: 'emoji', val: e }); }
 function showEmoji(e) {
     const el = document.getElementById('emoji-display');
-    if(el) { el.innerText = e; el.style.display = 'block'; setTimeout(() => el.style.display = 'none', 1000); }
+    el.innerText = e; el.style.display = 'block'; setTimeout(() => el.style.display = 'none', 1000);
 }
 
 function useJoker() {
