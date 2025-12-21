@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>DUELIX | AKTAŞ ISI TEKNİK</title>
-    
-    <link rel="stylesheet" href="style.css?v=1.5">
-
+    <link rel="stylesheet" href="style.css?v=1.6">
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
-    
     <script src="genelkultur.js"></script>
     <script src="tarih.js"></script>
     <script src="matematik.js"></script>
@@ -38,9 +35,8 @@
                     <button onclick="selectCategory('spor')">SPOR</button>
                 </div>
                 <div id="host-panel" style="display:none; margin-top:20px; border-top:1px solid #333; padding-top:20px;">
-                    <label style="color:#888; font-size: 0.8rem;">ODA KODUNUZ</label>
                     <div id="display-id" class="code-text" onclick="copyID()">------</div>
-                    <p style="color:var(--primary); font-size: 0.9rem;">Rakip bekleniyor...</p>
+                    <p style="color:var(--primary)">Rakip bekleniyor...</p>
                 </div>
                 <button onclick="location.reload()" class="btn-back">Vazgeç</button>
             </div>
@@ -52,7 +48,7 @@
                 <div class="input-wrapper">
                     <input type="number" id="peer-id" placeholder="000000" oninput="if(this.value.length > 6) this.value = this.value.slice(0,6);">
                 </div>
-                <button onclick="connectToFriend()" class="btn-primary" id="join-btn">BAĞLAN VE BAŞLA</button>
+                <button onclick="connectToFriend()" class="btn-primary" id="join-btn">BAĞLAN</button>
                 <button onclick="location.reload()" class="btn-back">Geri Dön</button>
             </div>
         </section>
@@ -66,13 +62,8 @@
                 </div>
                 <div class="score-card"><span class="p-label">RAKİP</span><span id="opp-score" class="p-val">0</span></div>
             </div>
-
-            <div class="question-canvas">
-                <h2 id="question-text">Yükleniyor...</h2>
-            </div>
-
+            <div class="question-canvas"><h2 id="question-text">Yükleniyor...</h2></div>
             <div id="options-grid" class="options-container"></div>
-
             <div class="bottom-controls">
                 <div id="msg-box"></div>
                 <button onclick="useJoker()" id="joker-btn" class="btn-joker">50:50 JOKERİ (1)</button>
@@ -95,10 +86,8 @@
                 <button onclick="location.reload()" class="btn-primary">TEKRAR OYNA</button>
             </div>
         </section>
-
         <div id="emoji-display" class="emoji-popup"></div>
     </div>
-
-    <script src="script.js?v=1.5"></script>
+    <script src="script.js?v=1.6"></script>
 </body>
 </html>
