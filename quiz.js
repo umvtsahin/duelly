@@ -1,90 +1,21 @@
-let quizData = { scoreMe: 0, scoreOpp: 0, round: 1, myAttempted: false, oppAttempted: false, firstSolver: null };
-
-function initQuiz() {
-    quizData = { scoreMe: 0, scoreOpp: 0, round: 1, myAttempted: false, oppAttempted: false, firstSolver: null };
-    if(isHost) startQuizRound();
+let qS = { me:0, opp:0, r:1, myD:false, oppD:false, f:null };
+function initQuiz() { qS={me:0, opp:0, r:1, myD:false, oppD:false, f:null}; if(isHost) nextQ(); }
+function nextQ() {
+    let pool = window[selectedCat+"Data"];
+    let q = pool["easy"][Math.floor(Math.random()*pool["easy"].length)];
+    sendData({type:'q_q', q:q, r:qS.r}); handleQuiz({type:'q_q', q:q, r:qS.r});
 }
-
-function startQuizRound() {
-    let pool = window[selectedCat + "Data"] || genelkulturData;
-    let diff = quizData.round <= 3 ? "easy" : (quizData.round <= 7 ? "medium" : "hard");
-    let questions = pool[diff];
-    let q = questions[Math.floor(Math.random() * questions.length)];
-    
-    const payload = { type: 'quiz_q', val: q, r: quizData.round };
-    sendData(payload);
-    handleQuiz(payload);
+function handleQuiz(m) {
+    if(m.type==='q_q') { qS.myD=false; qS.oppD=false; qS.f=null; renderQ(m.q, m.r); }
+    if(m.type==='q_p') { qS.opp+=m.p; if(m.f) qS.f='o'; qS.oppD=true; checkEnd(); }
 }
-
-function handleQuiz(msg) {
-    if(msg.type === 'quiz_q') {
-        quizData.myAttempted = false;
-        quizData.oppAttempted = false;
-        quizData.firstSolver = null;
-        renderQuiz(msg.val, msg.r);
-    }
-    if(msg.type === 'quiz_p') {
-        quizData.scoreOpp += msg.pts;
-        if(msg.isFirst) quizData.firstSolver = 'opp';
-        quizData.oppAttempted = true;
-        updateQuizUI();
-        checkQuizEnd();
-    }
+function renderQ(q, r) {
+    document.getElementById('game-quiz').innerHTML = `<div>${qS.me} - ${qS.opp} (TUR ${r})</div><h2>${q.q}</h2>${q.options.map(o=>`<button class="opt-btn" onclick="ans('${o}','${q.a}',this)">${o}</button>`).join('')}`;
 }
-
-function renderQuiz(q, r) {
-    const area = document.getElementById('game-quiz');
-    area.innerHTML = `
-        <div class="top-nav">
-            <div class="score-box">SİZ: <span id="qs-me">${quizData.scoreMe}</span></div>
-            <div class="round-indicator">TUR ${r}/10</div>
-            <div class="score-box">RAKİP: <span id="qs-opp">${quizData.scoreOpp}</span></div>
-        </div>
-        <div class="q-container">
-            <h2 class="question-text">${q.q}</h2>
-            <div class="options-grid">
-                ${q.options.map(opt => `<button class="opt-btn" onclick="answerQuiz('${opt}', '${q.a}', this)">${opt}</button>`).join('')}
-            </div>
-        </div>
-    `;
+function ans(o, a, b) {
+    if(qS.myD) return; qS.myD=true;
+    if(o===a) { let p=qS.f?5:15; qS.me+=p; if(!qS.f) qS.f='m'; sendData({type:'q_p', p:p, f:true}); b.style.background="green"; }
+    else { sendData({type:'q_p', p:0, f:false}); b.style.background="red"; }
+    checkEnd();
 }
-
-function answerQuiz(choice, correct, btn) {
-    if(quizData.myAttempted) return;
-    quizData.myAttempted = true;
-
-    if(choice === correct) {
-        btn.classList.add('correct');
-        let pts = (quizData.firstSolver === null) ? 15 : 5;
-        quizData.scoreMe += pts;
-        if(quizData.firstSolver === null) quizData.firstSolver = 'me';
-        sendData({ type: 'quiz_p', pts: pts, isFirst: (quizData.firstSolver === 'me') });
-    } else {
-        btn.classList.add('wrong');
-        sendData({ type: 'quiz_p', pts: 0, isFirst: false });
-    }
-    updateQuizUI();
-    checkQuizEnd();
-}
-
-function updateQuizUI() {
-    if(document.getElementById('qs-me')) document.getElementById('qs-me').innerText = quizData.scoreMe;
-    if(document.getElementById('qs-opp')) document.getElementById('qs-opp').innerText = quizData.scoreOpp;
-}
-
-function checkQuizEnd() {
-    if(quizData.myAttempted && quizData.oppAttempted) {
-        setTimeout(() => {
-            if(isHost) {
-                quizData.round++;
-                if(quizData.round > 10) {
-                    let winTxt = quizData.scoreMe > quizData.scoreOpp ? "KAZANDIN!" : (quizData.scoreMe < quizData.scoreOpp ? "KAYBETTİN" : "BERABERE");
-                    sendData({type: 'finish', txt: winTxt});
-                    showFinish(winTxt);
-                } else {
-                    startQuizRound();
-                }
-            }
-        }, 2000);
-    }
-}
+function checkEnd() { if(qS.myD && qS.oppD) setTimeout(()=> { if(isHost){ qS.r++; if(qS.r>10) location.reload(); else nextQ(); }}, 2000); }
