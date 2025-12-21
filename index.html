@@ -22,28 +22,27 @@
     <div id="app">
         <section id="main-menu" class="screen active">
             <h1 class="logo">DUEL<span>LY</span></h1>
-            <p class="tagline">AKTAŞ ISI TEKNİK SUNAR</p>
             <div class="menu-container">
-                <button onclick="openLobby('quiz')" class="menu-btn quiz-btn">BİLGİ DÜELLOSU</button>
-                <button onclick="openLobby('tictactoe')" class="menu-btn ttt-btn">TIC TAC TOE</button>
-                <button onclick="openLobby('hafiza')" class="menu-btn memory-btn">HAFIZA OYUNU</button>
+                <button onclick="openLobby('quiz')" class="menu-btn b-quiz">BİLGİ DÜELLOSU</button>
+                <button onclick="openLobby('tictactoe')" class="menu-btn b-ttt">TIC TAC TOE</button>
+                <button onclick="openLobby('hafiza')" class="menu-btn b-mem">HAFIZA OYUNU</button>
             </div>
         </section>
 
         <section id="lobby-screen" class="screen">
             <div class="glass-card">
                 <h2 id="lobby-title">LOBİ</h2>
-                <div id="quiz-options" style="display:none;">
-                    <div class="cat-grid" id="cat-grid">
-                        </div>
+                <div id="quiz-options" style="display:none; width:100%;">
+                    <p>Kategori Seç:</p>
+                    <div class="cat-grid" id="cat-grid"></div>
                 </div>
                 <div class="conn-box">
                     <small>KODUN:</small>
                     <div id="display-id" class="id-badge" onclick="copyID()">------</div>
                     <input type="number" id="peer-id" placeholder="RAKİP KODU">
-                    <button onclick="connectToFriend()" class="btn-join">SAVAŞA KATIL</button>
+                    <button onclick="connectToFriend()" class="btn-main">SAVAŞA KATIL</button>
                 </div>
-                <button onclick="location.reload()" class="btn-back">GERİ</button>
+                <button onclick="location.reload()" class="btn-text">İPTAL</button>
             </div>
         </section>
 
@@ -53,8 +52,8 @@
 
         <section id="result-screen" class="screen">
             <div class="glass-card">
-                <h2 id="winner-text">OYUN BİTTİ</h2>
-                <button onclick="location.reload()" class="btn-join">ANA MENÜ</button>
+                <h1 id="winner-text">OYUN BİTTİ</h1>
+                <button onclick="location.reload()" class="btn-main">ANA MENÜ</button>
             </div>
         </section>
     </div>
