@@ -2,16 +2,18 @@ let qS = { me:0, opp:0, r:1, myD:false, oppD:false, f:null };
 
 function initQuiz() {
     qS = { me:0, opp:0, r:1, myD:false, oppD:false, f:null };
-    if(isHost) setTimeout(nextQ, 1000); // Host soruyu seçer ve dağıtır
+    if(isHost) setTimeout(nextQ, 1000); 
 }
 
 function nextQ() {
-    // allQuestions nesnesinden (questions.js içindeki) veriyi çek
-    if(!window.allQuestions || !window.allQuestions[selectedCat]) {
-        console.error("Sorular bulunamadı! questions.js dosyasını kontrol et.");
+    // Dinamik olarak window[genelkulturData] gibi değişkenleri okur
+    const dataName = selectedCat + "Data";
+    if(!window[dataName]) {
+        console.error(dataName + " bulunamadı! Dosya adını ve içindeki değişkeni kontrol et.");
         return;
     }
-    let pool = window.allQuestions[selectedCat];
+    
+    let pool = window[dataName];
     let diff = qS.r <= 3 ? "easy" : (qS.r <= 7 ? "medium" : "hard");
     let questions = pool[diff];
     let q = questions[Math.floor(Math.random() * questions.length)];
@@ -81,8 +83,7 @@ function checkEnd() {
             if(isHost) {
                 qS.r++;
                 if(qS.r > 10) {
-                    let finalMsg = qS.me > qS.opp ? "KAZANDIN!" : (qS.me < qS.opp ? "KAYBETTİN" : "BERABERE");
-                    alert(finalMsg);
+                    alert(qS.me > qS.opp ? "KAZANDIN!" : "KAYBETTİN");
                     location.reload();
                 } else {
                     nextQ();
