@@ -1,7 +1,9 @@
+// DUELLY - Script v1.8
 let myCode, peer, conn, isHost = false, currentBank = null;
 let game = { scoreMe: 0, scoreOpp: 0, round: 1, max: 10, currentQ: null, jokerUsed: false, locked: true };
 let usedQuestions = [], myAttempted = false, oppAttempted = false;
 
+// Sesler
 const sfxCorrect = new Audio('dogru.mp3'); 
 const sfxWrong = new Audio('yanlis.mp3');
 
@@ -18,7 +20,8 @@ function initGame() {
     peer = new Peer(myCode);
     
     peer.on('open', id => { 
-        if(document.getElementById('display-id')) document.getElementById('display-id').innerText = id; 
+        const el = document.getElementById('display-id');
+        if(el) el.innerText = id; 
     });
 
     peer.on('connection', c => {
@@ -42,6 +45,7 @@ function selectCategory(catKey) {
 function connectToFriend() {
     const target = document.getElementById('peer-id').value;
     if(target.length < 6) return;
+    // Hataları önlemek için serialization: 'none' (Ham metin/JSON)
     conn = peer.connect(target, { serialization: 'none' }); 
     isHost = false;
     handleConnection();
@@ -78,11 +82,14 @@ function handleConnection() {
             oppAttempted = true;
             checkBothWrong();
         }
-        if(data.type === 'emoji') { showEmoji(data.val); }
+        if(data.type === 'emoji') {
+            showEmoji(data.val);
+        }
         if(data.type === 'end') showResults();
     });
 }
 
+// Güvenli gönderim (Metinleştirme)
 function safeSend(obj) {
     if(conn && conn.open) {
         conn.send(JSON.stringify(obj));
@@ -110,7 +117,8 @@ function resetRoundState() {
     myAttempted = false;
     oppAttempted = false;
     game.locked = true;
-    if(document.getElementById('msg-box')) document.getElementById('msg-box').innerText = ""; 
+    const msg = document.getElementById('msg-box');
+    if(msg) msg.innerText = ""; 
 }
 
 function renderQuestion(q) {
@@ -201,6 +209,7 @@ function showResults() {
 function copyID() {
     const text = document.getElementById('display-id').innerText;
     navigator.clipboard.writeText(text);
-    document.getElementById('display-id').innerText = "KOPYALANDI!";
-    setTimeout(() => document.getElementById('display-id').innerText = text, 2000);
+    const btn = document.getElementById('display-id');
+    btn.innerText = "KOPYALANDI!";
+    setTimeout(() => btn.innerText = text, 2000);
 }
