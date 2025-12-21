@@ -4,7 +4,11 @@ window.onload = () => {
     myID = Math.floor(100000 + Math.random() * 900000).toString();
     peer = new Peer(myID);
     peer.on('open', id => document.getElementById('display-id').innerText = id);
-    peer.on('connection', c => { conn = c; isHost = true; listen(); });
+    peer.on('connection', c => { 
+        conn = c; 
+        isHost = true; 
+        listen(); 
+    });
 };
 
 function openLobby(m) {
@@ -23,17 +27,27 @@ function renderCats() {
 
 function connectToFriend() {
     const rid = document.getElementById('peer-id').value;
-    if(!rid) return alert("Kod yaz kanka!");
+    if(!rid) return alert("Kod yaz!");
     conn = peer.connect(rid);
     isHost = false;
     listen();
 }
 
 function listen() {
-    conn.on('open', () => { if(isHost) sendData({type:'start', m:selectedMode, c:selectedCat}); });
+    conn.on('open', () => {
+        if(isHost) {
+            // Host bağlantı açıldığında karşı tarafa başlat komutu gönderir
+            setTimeout(() => sendData({type:'start', m:selectedMode, c:selectedCat}), 500);
+        }
+    });
     conn.on('data', d => {
         let msg = JSON.parse(d);
-        if(msg.type === 'start') { selectedMode = msg.m; selectedCat = msg.c; startGame(); }
+        if(msg.type === 'start') { 
+            selectedMode = msg.m; 
+            selectedCat = msg.c; 
+            startGame(); 
+        }
+        // Gelen veriyi ilgili modüle yönlendir
         if(selectedMode === 'quiz') handleQuiz(msg);
         if(selectedMode === 'tictactoe') handleTTT(msg);
         if(selectedMode === 'hafiza') handleHafiza(msg);
@@ -48,5 +62,9 @@ function startGame() {
 }
 
 function sendData(o) { if(conn && conn.open) conn.send(JSON.stringify(o)); }
-function showScreen(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
-function copyID() { navigator.clipboard.writeText(myID); alert("Kod Kopyalandı!"); }
+function showScreen(id) { 
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById(id);
+    if(target) target.classList.add('active');
+}
+function copyID() { navigator.clipboard.writeText(myID); alert("Kopyalandı!"); }
