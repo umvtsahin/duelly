@@ -1,5 +1,5 @@
 let myCode = Math.floor(100000 + Math.random() * 900000).toString();
-const peer = new Peer(myCode, { debug: 1 });
+const peer = new Peer(myCode);
 let conn, isHost = false, currentBank = null;
 let game = { scoreMe: 0, scoreOpp: 0, round: 1, max: 10, currentQ: null, jokerUsed: false, locked: true };
 
@@ -31,7 +31,8 @@ function selectCategory(catKey) {
 function connectToFriend() {
     const target = document.getElementById('peer-id').value;
     if(target.length < 6) return;
-    conn = peer.connect(target, { serialization: 'json' }); // Hata veren binarypack yerine json kullan
+    // Bağlanırken ekstra ayar eklemiyoruz, kütüphane varsayılanı kullansın
+    conn = peer.connect(target);
     handleConnection();
 }
 
@@ -39,17 +40,25 @@ function handleConnection() {
     conn.on('open', () => {
         showScreen('game-area');
         if(isHost) {
-            conn.send({ type: 'init_cat', cat: document.getElementById('cat-label').innerText });
+            safeSend({ type: 'init_cat', cat: document.getElementById('cat-label').innerText });
             setTimeout(hostNextRound, 1000);
         }
     });
 
-    conn.on('data', data => {
-        // Gelen her paket için durumu kontrol et
+    conn.on('data', rawData => {
+        // Gelen veriyi güvenli bir şekilde objeye çeviriyoruz
+        let data;
+        try {
+            data = (typeof rawData === 'string') ? JSON.parse(rawData) : rawData;
+        } catch (e) {
+            console.error("Veri çözme hatası:", e);
+            return;
+        }
+
         if(data.type === 'init_cat') currentBank = window[data.cat.toLowerCase() + "Data"];
         
         if(data.type === 'next_question') {
-            resetRoundState(); // Yazıyı ve kilidi temizle
+            resetRoundState();
             game.round = data.round;
             renderQuestion(data.val);
         }
@@ -67,7 +76,6 @@ function handleConnection() {
         }
 
         if(data.type === 'emoji') {
-            console.log("Emoji Geldi:", data.val);
             showEmoji(data.val);
         }
 
@@ -75,10 +83,18 @@ function handleConnection() {
     });
 }
 
+// HATA ÖNLEYİCİ GÖNDERİM FONKSİYONU
+function safeSend(obj) {
+    if(conn && conn.open) {
+        // Veriyi metin olarak göndererek TextDecoder hatasını engelliyoruz
+        conn.send(JSON.stringify(obj));
+    }
+}
+
 function hostNextRound() {
     if(!isHost) return;
     if(game.round > game.max) {
-        conn.send({ type: 'end' });
+        safeSend({ type: 'end' });
         showResults();
         return;
     }
@@ -92,7 +108,7 @@ function hostNextRound() {
 
     resetRoundState();
     renderQuestion(q);
-    conn.send({ type: 'next_question', val: q, round: game.round });
+    safeSend({ type: 'next_question', val: q, round: game.round });
 }
 
 function resetRoundState() {
@@ -122,14 +138,14 @@ function renderQuestion(q) {
                 game.scoreMe += 10;
                 updateUI();
                 game.locked = true;
-                conn.send({ type: 'point', pts: 10 });
+                safeSend({ type: 'point', pts: 10 });
                 if(isHost) { game.round++; setTimeout(hostNextRound, 2000); }
             } else {
                 sfxWrong.play().catch(()=>{});
                 myAttempted = true;
                 btn.style.background = "#ff007f";
                 btn.disabled = true;
-                conn.send({ type: 'wrong_attempt' });
+                safeSend({ type: 'wrong_attempt' });
                 checkBothWrong();
             }
         };
@@ -138,7 +154,7 @@ function renderQuestion(q) {
 
     setTimeout(() => {
         document.querySelectorAll('.opt-btn').forEach(btn => btn.classList.add('show'));
-        game.locked = false; // Kilidi aç
+        game.locked = false;
     }, 1500);
 }
 
@@ -156,9 +172,8 @@ function updateUI() {
 }
 
 function sendEmoji(emoji) {
-    if(!conn || !conn.open) return;
     showEmoji(emoji);
-    conn.send({ type: 'emoji', val: emoji });
+    safeSend({ type: 'emoji', val: emoji });
 }
 
 function showEmoji(emoji) {
@@ -191,7 +206,6 @@ function showResults() {
 function copyID() {
     navigator.clipboard.writeText(myCode);
     const btn = document.getElementById('display-id');
-    const oldText = btn.innerText;
     btn.innerText = "KOPYALANDI!";
-    setTimeout(() => btn.innerText = oldText, 2000);
+    setTimeout(() => btn.innerText = myCode, 2000);
 }
