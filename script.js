@@ -7,7 +7,8 @@ let usedQuestions = [];
 let myAttempted = false;
 let oppAttempted = false;
 
-const sfxCorrect = new Audio('dogru.mp3');
+// SESLER - Sadece senin istediğin isimlerle
+const sfxCorrect = new Audio('dogru.mp3'); 
 const sfxWrong = new Audio('yanlis.mp3');
 
 peer.on('open', id => { document.getElementById('display-id').innerText = id; });
@@ -31,7 +32,6 @@ function selectCategory(catKey) {
 function connectToFriend() {
     const target = document.getElementById('peer-id').value;
     if(target.length < 6) return;
-    // Bağlanırken ekstra ayar eklemiyoruz, kütüphane varsayılanı kullansın
     conn = peer.connect(target);
     handleConnection();
 }
@@ -46,49 +46,34 @@ function handleConnection() {
     });
 
     conn.on('data', rawData => {
-        // Gelen veriyi güvenli bir şekilde objeye çeviriyoruz
         let data;
         try {
             data = (typeof rawData === 'string') ? JSON.parse(rawData) : rawData;
-        } catch (e) {
-            console.error("Veri çözme hatası:", e);
-            return;
-        }
+        } catch (e) { return; }
 
         if(data.type === 'init_cat') currentBank = window[data.cat.toLowerCase() + "Data"];
-        
         if(data.type === 'next_question') {
             resetRoundState();
             game.round = data.round;
             renderQuestion(data.val);
         }
-        
         if(data.type === 'point') {
             game.scoreOpp += data.pts;
             updateUI();
             game.locked = true;
             if(isHost) { game.round++; setTimeout(hostNextRound, 2000); }
         }
-
         if(data.type === 'wrong_attempt') {
             oppAttempted = true;
             checkBothWrong();
         }
-
-        if(data.type === 'emoji') {
-            showEmoji(data.val);
-        }
-
+        if(data.type === 'emoji') { showEmoji(data.val); }
         if(data.type === 'end') showResults();
     });
 }
 
-// HATA ÖNLEYİCİ GÖNDERİM FONKSİYONU
 function safeSend(obj) {
-    if(conn && conn.open) {
-        // Veriyi metin olarak göndererek TextDecoder hatasını engelliyoruz
-        conn.send(JSON.stringify(obj));
-    }
+    if(conn && conn.open) { conn.send(JSON.stringify(obj)); }
 }
 
 function hostNextRound() {
@@ -98,14 +83,11 @@ function hostNextRound() {
         showResults();
         return;
     }
-
     let diff = game.round <= 3 ? "easy" : (game.round <= 7 ? "medium" : "hard");
     let pool = currentBank[diff].filter(q => !usedQuestions.includes(q.q));
     if(pool.length === 0) pool = currentBank[diff];
-
     const q = pool[Math.floor(Math.random() * pool.length)];
     usedQuestions.push(q.q);
-
     resetRoundState();
     renderQuestion(q);
     safeSend({ type: 'next_question', val: q, round: game.round });
@@ -122,10 +104,8 @@ function renderQuestion(q) {
     game.currentQ = q;
     document.getElementById('question-text').innerText = q.q;
     document.getElementById('round-info').innerText = `${game.round} / ${game.max}`;
-    
     const grid = document.getElementById('options-grid');
     grid.innerHTML = "";
-
     q.options.forEach(opt => {
         const btn = document.createElement('button');
         btn.className = 'opt-btn';
@@ -151,7 +131,6 @@ function renderQuestion(q) {
         };
         grid.appendChild(btn);
     });
-
     setTimeout(() => {
         document.querySelectorAll('.opt-btn').forEach(btn => btn.classList.add('show'));
         game.locked = false;
@@ -200,7 +179,6 @@ function showResults() {
     showScreen('result-screen');
     document.getElementById('res-me').innerText = game.scoreMe;
     document.getElementById('res-opp').innerText = game.scoreOpp;
-    document.getElementById('winner-text').innerText = game.scoreMe > game.scoreOpp ? "ZAFER SENİN!" : (game.scoreMe === game.scoreOpp ? "BERABERE!" : "RAKİP KAZANDI!");
 }
 
 function copyID() {
