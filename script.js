@@ -7,10 +7,9 @@ let usedQuestions = [];
 let myAttempted = false;
 let oppAttempted = false;
 
-// Ses Dosyaları
-const sfxCorrect = new Audio('correct.mp3');
-const sfxWrong = new Audio('wrong.mp3');
-const sfxEmoji = new Audio('click.mp3');
+// SESLER (Klasöründe dogru.mp3 ve yanlis.mp3 olmalı)
+const sfxCorrect = new Audio('dogru.mp3');
+const sfxWrong = new Audio('yanlis.mp3');
 
 peer.on('open', id => { document.getElementById('display-id').innerText = id; });
 
@@ -72,7 +71,7 @@ function hostNextRound() {
 function resetRoundState() {
     myAttempted = false;
     oppAttempted = false;
-    game.locked = true; // Soru ilk geldiğinde kilitli
+    game.locked = true; 
     document.getElementById('msg-box').innerText = "";
 }
 
@@ -84,7 +83,6 @@ function renderQuestion(q) {
     const grid = document.getElementById('options-grid');
     grid.innerHTML = "";
 
-    // Şıkları oluştur ama hemen gösterme
     q.options.forEach(opt => {
         const btn = document.createElement('button');
         btn.className = 'opt-btn'; 
@@ -92,12 +90,14 @@ function renderQuestion(q) {
         btn.onclick = () => {
             if(game.locked || myAttempted) return;
             if(opt === game.currentQ.a) {
-                sfxCorrect.play(); btn.style.background = "#238636";
+                sfxCorrect.play().catch(e => {}); 
+                btn.style.background = "#238636";
                 game.scoreMe += 10; updateUI(); game.locked = true;
                 conn.send({ type: 'point', pts: 10 });
                 if(isHost) { game.round++; setTimeout(hostNextRound, 2000); }
             } else {
-                sfxWrong.play(); myAttempted = true;
+                sfxWrong.play().catch(e => {}); 
+                myAttempted = true;
                 btn.style.background = "#ff007f"; btn.disabled = true;
                 conn.send({ type: 'wrong_attempt' });
                 checkBothWrong();
@@ -106,7 +106,7 @@ function renderQuestion(q) {
         grid.appendChild(btn);
     });
 
-    // 1.5 Saniye sonra cevapları göster ve kilidi aç
+    // 1.5 Saniye sonra şıkları göster ve kilidi aç
     setTimeout(() => {
         document.querySelectorAll('.opt-btn').forEach(btn => btn.classList.add('show'));
         game.locked = false;
@@ -128,7 +128,6 @@ function updateUI() {
 function sendEmoji(emoji) {
     showEmoji(emoji);
     conn.send({ type: 'emoji', val: emoji });
-    sfxEmoji.play();
 }
 
 function showEmoji(emoji) {
@@ -154,18 +153,14 @@ function showResults() {
     showScreen('result-screen');
     document.getElementById('res-me').innerText = game.scoreMe;
     document.getElementById('res-opp').innerText = game.scoreOpp;
+    document.getElementById('winner-text').innerText = game.scoreMe > game.scoreOpp ? "ZAFER SENİN!" : "RAKİP KAZANDI!";
 }
 
-// PWA & Diğerleri
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault(); deferredPrompt = e;
-    document.getElementById('pwa-prompt').style.display = 'block';
-    document.getElementById('pwa-install-btn').style.display = 'block';
-});
-
-window.addEventListener('load', () => {
-    if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
-});
-
-function copyID() { navigator.clipboard.writeText(myCode); alert("Kod Kopyalandı!"); }
+function copyID() { 
+    navigator.clipboard.writeText(myCode); 
+    const btn = document.getElementById('display-id');
+    const oldText = btn.innerText;
+    btn.innerText = "KOPYALANDI!";
+    setTimeout(() => btn.innerText = oldText, 2000);
+}
 function closePwa() { document.getElementById('pwa-prompt').style.display = 'none'; }
