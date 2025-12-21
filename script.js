@@ -1,9 +1,8 @@
-// DUELLY - Script v1.8
+// DUELLY v1.9 - PeerJS Fixed
 let myCode, peer, conn, isHost = false, currentBank = null;
 let game = { scoreMe: 0, scoreOpp: 0, round: 1, max: 10, currentQ: null, jokerUsed: false, locked: true };
 let usedQuestions = [], myAttempted = false, oppAttempted = false;
 
-// Sesler
 const sfxCorrect = new Audio('dogru.mp3'); 
 const sfxWrong = new Audio('yanlis.mp3');
 
@@ -45,7 +44,6 @@ function selectCategory(catKey) {
 function connectToFriend() {
     const target = document.getElementById('peer-id').value;
     if(target.length < 6) return;
-    // Hataları önlemek için serialization: 'none' (Ham metin/JSON)
     conn = peer.connect(target, { serialization: 'none' }); 
     isHost = false;
     handleConnection();
@@ -82,18 +80,13 @@ function handleConnection() {
             oppAttempted = true;
             checkBothWrong();
         }
-        if(data.type === 'emoji') {
-            showEmoji(data.val);
-        }
+        if(data.type === 'emoji') showEmoji(data.val);
         if(data.type === 'end') showResults();
     });
 }
 
-// Güvenli gönderim (Metinleştirme)
 function safeSend(obj) {
-    if(conn && conn.open) {
-        conn.send(JSON.stringify(obj));
-    }
+    if(conn && conn.open) conn.send(JSON.stringify(obj));
 }
 
 function hostNextRound() {
@@ -114,9 +107,7 @@ function hostNextRound() {
 }
 
 function resetRoundState() {
-    myAttempted = false;
-    oppAttempted = false;
-    game.locked = true;
+    myAttempted = false; oppAttempted = false; game.locked = true;
     const msg = document.getElementById('msg-box');
     if(msg) msg.innerText = ""; 
 }
@@ -171,29 +162,22 @@ function updateUI() {
     document.getElementById('opp-score').innerText = game.scoreOpp;
 }
 
-function sendEmoji(emoji) {
-    showEmoji(emoji);
-    safeSend({ type: 'emoji', val: emoji });
-}
+function sendEmoji(e) { showEmoji(e); safeSend({ type: 'emoji', val: e }); }
 
-function showEmoji(emoji) {
+function showEmoji(e) {
     const el = document.getElementById('emoji-display');
-    if(el) {
-        el.innerText = emoji;
-        el.style.display = 'block';
-        setTimeout(() => { el.style.display = 'none'; }, 1000);
-    }
+    if(el) { el.innerText = e; el.style.display = 'block'; setTimeout(() => el.style.display = 'none', 1000); }
 }
 
 function useJoker() {
     if (game.jokerUsed || game.locked || myAttempted) return;
     const btns = Array.from(document.querySelectorAll('.opt-btn'));
-    const wrongOnes = btns.filter(b => b.innerText !== game.currentQ.a);
+    const wrong = btns.filter(b => b.innerText !== game.currentQ.a);
     for (let i = 0; i < 2; i++) {
-        if(wrongOnes.length > 0) {
-            const index = Math.floor(Math.random() * wrongOnes.length);
-            wrongOnes[index].classList.add('hidden');
-            wrongOnes.splice(index, 1);
+        if(wrong.length > 0) {
+            const idx = Math.floor(Math.random() * wrong.length);
+            wrong[idx].classList.add('hidden');
+            wrong.splice(idx, 1);
         }
     }
     game.jokerUsed = true;
@@ -207,9 +191,8 @@ function showResults() {
 }
 
 function copyID() {
-    const text = document.getElementById('display-id').innerText;
-    navigator.clipboard.writeText(text);
-    const btn = document.getElementById('display-id');
-    btn.innerText = "KOPYALANDI!";
-    setTimeout(() => btn.innerText = text, 2000);
+    const t = document.getElementById('display-id').innerText;
+    navigator.clipboard.writeText(t);
+    document.getElementById('display-id').innerText = "KOPYALANDI!";
+    setTimeout(() => document.getElementById('display-id').innerText = t, 2000);
 }
