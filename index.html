@@ -4,83 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>DUELLY</title>
-    <link rel="icon" type="image/png" href="icon.png">
-    <link rel="stylesheet" href="style.css?v=3.0">
+    <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
+    
     <script src="genelkultur.js"></script>
     <script src="tarih.js"></script>
     <script src="matematik.js"></script>
+    <script src="bilim.js"></script>
+    <script src="sinema.js"></script>
+    <script src="spor.js"></script>
+
+    <script src="quiz.js"></script>
+    <script src="tictactoe.js"></script>
+    <script src="hafiza.js"></script>
 </head>
 <body>
     <div id="app">
         <section id="main-menu" class="screen active">
             <h1 class="logo">DUEL<span>LY</span></h1>
+            <p class="tagline">AKTAŞ ISI TEKNİK SUNAR</p>
             <div class="menu-container">
-                <button onclick="openLobby('quiz')" class="btn-primary">BİLGİ DÜELLOSU</button>
-                <button onclick="openLobby('tictactoe')" class="btn-secondary" style="margin-top:10px">TIC TAC TOE</button>
-                <button onclick="alert('Yakında!')" class="btn-back" style="margin-top:10px; opacity:0.6">HAFIZA OYUNU</button>
+                <button onclick="openLobby('quiz')" class="menu-btn quiz-btn">BİLGİ DÜELLOSU</button>
+                <button onclick="openLobby('tictactoe')" class="menu-btn ttt-btn">TIC TAC TOE</button>
+                <button onclick="openLobby('hafiza')" class="menu-btn memory-btn">HAFIZA OYUNU</button>
             </div>
         </section>
 
         <section id="lobby-screen" class="screen">
-            <div class="card">
-                <h3 id="lobby-title">ODA AYARLARI</h3>
+            <div class="glass-card">
+                <h2 id="lobby-title">LOBİ</h2>
                 <div id="quiz-options" style="display:none;">
-                    <p>Kategori Seç:</p>
-                    <div class="category-grid">
-                        <button onclick="selectCat('genelkultur')">GENEL KÜLTÜR</button>
-                        <button onclick="selectCat('tarih')">TARİH</button>
-                    </div>
+                    <div class="cat-grid" id="cat-grid">
+                        </div>
                 </div>
-                
-                <div id="connection-area">
-                    <p>Kodunuz:</p>
-                    <div id="display-id" class="code-text" onclick="copyID()">------</div>
-                    <hr>
-                    <p>Rakip Kodu:</p>
-                    <input type="number" id="peer-id" placeholder="000000">
-                    <button onclick="connectToFriend()" class="btn-primary">SAVAŞA KATIL</button>
+                <div class="conn-box">
+                    <small>KODUN:</small>
+                    <div id="display-id" class="id-badge" onclick="copyID()">------</div>
+                    <input type="number" id="peer-id" placeholder="RAKİP KODU">
+                    <button onclick="connectToFriend()" class="btn-join">SAVAŞA KATIL</button>
                 </div>
-                <button onclick="location.reload()" class="btn-back">İptal</button>
+                <button onclick="location.reload()" class="btn-back">GERİ</button>
             </div>
         </section>
 
-        <section id="game-quiz" class="screen">
-            <div class="top-nav">
-                <div class="score-card">SİZ: <span id="q-score-me">0</span></div>
-                <div id="q-round">1 / 10</div>
-                <div class="score-card">RAKİP: <span id="q-score-opp">0</span></div>
-            </div>
-            <div class="question-canvas"><h2 id="q-text">Yükleniyor...</h2></div>
-            <div id="q-options" class="options-container"></div>
-        </section>
-
-        <section id="game-tictactoe" class="screen">
-            <div class="top-nav">
-                <div class="score-card">SİZ: <span id="t-score-me">0</span></div>
-                <div id="turn-info">SIRA KİMDE?</div>
-                <div class="score-card">RAKİP: <span id="t-score-opp">0</span></div>
-            </div>
-            <div id="ttt-board" class="ttt-grid">
-                <div class="cell" onclick="makeTTTMove(0)"></div>
-                <div class="cell" onclick="makeTTTMove(1)"></div>
-                <div class="cell" onclick="makeTTTMove(2)"></div>
-                <div class="cell" onclick="makeTTTMove(3)"></div>
-                <div class="cell" onclick="makeTTTMove(4)"></div>
-                <div class="cell" onclick="makeTTTMove(5)"></div>
-                <div class="cell" onclick="makeTTTMove(6)"></div>
-                <div class="cell" onclick="makeTTTMove(7)"></div>
-                <div class="cell" onclick="makeTTTMove(8)"></div>
-            </div>
-        </section>
+        <section id="game-quiz" class="screen"></section>
+        <section id="game-tictactoe" class="screen"></section>
+        <section id="game-hafiza" class="screen"></section>
 
         <section id="result-screen" class="screen">
-            <div class="card">
+            <div class="glass-card">
                 <h2 id="winner-text">OYUN BİTTİ</h2>
-                <button onclick="location.reload()" class="btn-primary">MENÜYE DÖN</button>
+                <button onclick="location.reload()" class="btn-join">ANA MENÜ</button>
             </div>
         </section>
     </div>
-    <script src="script.js?v=3.0"></script>
+    <script src="script.js"></script>
 </body>
 </html>
