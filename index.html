@@ -4,14 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>DUELIX</title>
-    
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#00f2ff">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="stylesheet" href="style.css?v=1.2">
-
-    <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
+    <link rel="stylesheet" href="style.css?v=1.3">
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
     
     <script src="genelkultur.js"></script>
     <script src="tarih.js"></script>
@@ -26,7 +20,7 @@
             <h1 class="logo">DUEL<span>IX</span></h1>
             <div class="menu-container" style="width: 100%; max-width: 320px;">
                 <button onclick="showScreen('lobby-create')" class="btn-primary">ODA KUR</button>
-                <button onclick="showScreen('lobby-join')" class="btn-secondary">SAVAŞA KATIL</button>
+                <button onclick="showScreen('lobby-join')" class="btn-secondary" style="margin-top:10px">SAVAŞA KATIL</button>
             </div>
         </section>
 
@@ -42,22 +36,20 @@
                     <button onclick="selectCategory('spor')">SPOR</button>
                 </div>
                 <div id="host-panel" style="display:none; margin-top:20px; border-top:1px solid #333; padding-top:20px;">
-                    <label style="color:#888; font-size: 0.8rem;">ODA KODUNUZ</label>
                     <div id="display-id" class="code-text" onclick="copyID()">--- ---</div>
-                    <p class="pulse-text" style="color:var(--primary); font-size: 0.9rem;">Rakip bekleniyor...</p>
+                    <p style="color:var(--primary)">Rakip bekleniyor...</p>
                 </div>
                 <button onclick="location.reload()" class="btn-back">Vazgeç</button>
             </div>
         </section>
 
         <section id="lobby-join" class="screen">
-            <div class="card join-card">
+            <div class="card">
                 <h3>SAVAŞA KATIL</h3>
-                <p style="color:#888; font-size: 0.9rem;">Arkadaşının 6 haneli kodunu gir</p>
                 <div class="input-wrapper">
-                    <input type="number" id="peer-id" placeholder="000000" oninput="if(this.value.length > 6) this.value = this.value.slice(0,6);">
+                    <input type="number" id="peer-id" placeholder="6 Haneli Kod" oninput="if(this.value.length > 6) this.value = this.value.slice(0,6);">
                 </div>
-                <button onclick="connectToFriend()" class="btn-primary" id="join-btn">BAĞLAN VE BAŞLA</button>
+                <button onclick="connectToFriend()" class="btn-primary" id="join-btn">BAĞLAN</button>
                 <button onclick="location.reload()" class="btn-back">Geri Dön</button>
             </div>
         </section>
@@ -73,7 +65,7 @@
             </div>
 
             <div class="question-canvas">
-                <h2 id="question-text">Hazır Ol...</h2>
+                <h2 id="question-text">Hazırlanıyor...</h2>
             </div>
 
             <div id="options-grid" class="options-container"></div>
@@ -81,7 +73,6 @@
             <div class="bottom-controls">
                 <div id="msg-box"></div>
                 <button onclick="useJoker()" id="joker-btn" class="btn-joker">50:50 JOKERİ (1)</button>
-                
                 <div class="emoji-bar">
                     <button onclick="sendEmoji('😂')">😂</button>
                     <button onclick="sendEmoji('😢')">😢</button>
@@ -94,9 +85,9 @@
         <section id="result-screen" class="screen">
             <div class="card">
                 <h2 id="winner-text">OYUN BİTTİ</h2>
-                <div class="stats-grid" style="display:flex; justify-content: space-around; margin: 20px 0;">
-                    <div class="stat-item"><span>SİZ</span><br><b id="res-me" style="font-size: 2rem; color:var(--primary);">0</b></div>
-                    <div class="stat-item"><span>RAKİP</span><br><b id="res-opp" style="font-size: 2rem; color:var(--secondary);">0</b></div>
+                <div class="stats-grid" style="display:flex; justify-content:space-around; margin:20px 0;">
+                    <div>SİZ<br><b id="res-me" style="font-size:2rem; color:var(--primary)">0</b></div>
+                    <div>RAKİP<br><b id="res-opp" style="font-size:2rem; color:var(--secondary)">0</b></div>
                 </div>
                 <button onclick="location.reload()" class="btn-primary">TEKRAR OYNA</button>
             </div>
@@ -104,6 +95,6 @@
 
         <div id="emoji-display" class="emoji-popup"></div>
     </div>
-    <script src="script.js?v=1.2"></script>
+    <script src="script.js?v=1.3"></script>
 </body>
 </html>
