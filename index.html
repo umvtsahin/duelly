@@ -9,7 +9,7 @@
     <meta name="theme-color" content="#00f2ff">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=1.2">
 
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
     
@@ -24,7 +24,7 @@
     <div id="app">
         <section id="main-menu" class="screen active">
             <h1 class="logo">DUEL<span>IX</span></h1>
-            <div class="menu-container">
+            <div class="menu-container" style="width: 100%; max-width: 320px;">
                 <button onclick="showScreen('lobby-create')" class="btn-primary">ODA KUR</button>
                 <button onclick="showScreen('lobby-join')" class="btn-secondary">SAVAŞA KATIL</button>
             </div>
@@ -42,26 +42,25 @@
                     <button onclick="selectCategory('spor')">SPOR</button>
                 </div>
                 <div id="host-panel" style="display:none; margin-top:20px; border-top:1px solid #333; padding-top:20px;">
-                    <label>ODA KODUNUZ</label>
+                    <label style="color:#888; font-size: 0.8rem;">ODA KODUNUZ</label>
                     <div id="display-id" class="code-text" onclick="copyID()">--- ---</div>
-                    <p class="pulse-text">Rakip bekleniyor...</p>
+                    <p class="pulse-text" style="color:var(--primary); font-size: 0.9rem;">Rakip bekleniyor...</p>
                 </div>
-                <button onclick="location.reload()" class="btn-back">VAZGEÇ</button>
+                <button onclick="location.reload()" class="btn-back">Vazgeç</button>
             </div>
         </section>
 
-     <section id="lobby-join" class="screen">
-    <div class="card join-card">
-        <h3>SAVAŞA KATIL</h3>
-        <p class="sub-text">Arkadaşının 6 haneli kodunu gir</p>
-        <div class="input-wrapper">
-            <input type="number" id="peer-id" placeholder="000 000" maxlength="6">
-            <div class="input-focus-line"></div>
-        </div>
-        <button onclick="connectToFriend()" class="btn-primary" id="join-btn">BAĞLAN VE BAŞLA</button>
-        <button onclick="location.reload()" class="btn-back">Vazgeç</button>
-    </div>
-</section>
+        <section id="lobby-join" class="screen">
+            <div class="card join-card">
+                <h3>SAVAŞA KATIL</h3>
+                <p style="color:#888; font-size: 0.9rem;">Arkadaşının 6 haneli kodunu gir</p>
+                <div class="input-wrapper">
+                    <input type="number" id="peer-id" placeholder="000000" oninput="if(this.value.length > 6) this.value = this.value.slice(0,6);">
+                </div>
+                <button onclick="connectToFriend()" class="btn-primary" id="join-btn">BAĞLAN VE BAŞLA</button>
+                <button onclick="location.reload()" class="btn-back">Geri Dön</button>
+            </div>
+        </section>
 
         <section id="game-area" class="screen">
             <div class="top-nav">
@@ -79,42 +78,32 @@
 
             <div id="options-grid" class="options-container"></div>
 
-            <div class="footer-controls">
+            <div class="bottom-controls">
                 <div id="msg-box"></div>
                 <button onclick="useJoker()" id="joker-btn" class="btn-joker">50:50 JOKERİ (1)</button>
-            </div>
-
-            <div class="emoji-bar">
-                <button onclick="sendEmoji('😂')">😂</button>
-                <button onclick="sendEmoji('😢')">😢</button>
-                <button onclick="sendEmoji('😠')">😠</button>
-                <button onclick="sendEmoji('😎')">😎</button>
+                
+                <div class="emoji-bar">
+                    <button onclick="sendEmoji('😂')">😂</button>
+                    <button onclick="sendEmoji('😢')">😢</button>
+                    <button onclick="sendEmoji('😠')">😠</button>
+                    <button onclick="sendEmoji('😎')">😎</button>
+                </div>
             </div>
         </section>
 
         <section id="result-screen" class="screen">
             <div class="card">
                 <h2 id="winner-text">OYUN BİTTİ</h2>
-                <div class="stats-grid">
-                    <div class="stat-item"><span>SİZ</span><b id="res-me">0</b></div>
-                    <div class="stat-item"><span>RAKİP</span><b id="res-opp">0</b></div>
+                <div class="stats-grid" style="display:flex; justify-content: space-around; margin: 20px 0;">
+                    <div class="stat-item"><span>SİZ</span><br><b id="res-me" style="font-size: 2rem; color:var(--primary);">0</b></div>
+                    <div class="stat-item"><span>RAKİP</span><br><b id="res-opp" style="font-size: 2rem; color:var(--secondary);">0</b></div>
                 </div>
                 <button onclick="location.reload()" class="btn-primary">TEKRAR OYNA</button>
             </div>
         </section>
 
         <div id="emoji-display" class="emoji-popup"></div>
-
-        <div id="pwa-prompt" class="pwa-guide">
-            <div class="pwa-content">
-                <span class="close-pwa" onclick="closePwa()">×</span>
-                <p>Uygulamayı Ana Ekrana Ekle!</p>
-                <div id="pwa-instructions"></div>
-                <button id="pwa-install-btn" class="btn-primary" style="display:none; width:100%; margin-top:10px;">YÜKLE</button>
-            </div>
-        </div>
     </div>
-    <script src="script.js"></script>
+    <script src="script.js?v=1.2"></script>
 </body>
 </html>
-
