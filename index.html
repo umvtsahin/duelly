@@ -6,17 +6,8 @@
     <title>DUELLY</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
-    
-    <script src="genelkultur.js"></script>
-    <script src="tarih.js"></script>
-    <script src="matematik.js"></script>
-    <script src="bilim.js"></script>
-    <script src="sinema.js"></script>
-    <script src="spor.js"></script>
-
-    <script src="quiz.js"></script>
-    <script src="tictactoe.js"></script>
-    <script src="hafiza.js"></script>
+    <script src="genelkultur.js"></script><script src="tarih.js"></script><script src="matematik.js"></script>
+    <script src="quiz.js"></script><script src="tictactoe.js"></script><script src="hafiza.js"></script>
 </head>
 <body>
     <div id="app">
@@ -28,16 +19,13 @@
                 <button onclick="openLobby('hafiza')" class="menu-btn b-mem">🧩 HAFIZA OYUNU</button>
             </div>
         </section>
-
         <section id="lobby-screen" class="screen">
             <div class="glass-card">
-                <h2 id="lobby-title" class="neon-text">LOBİ</h2>
-                <div id="quiz-options" style="display:none;">
-                    <p class="label">KATEGORİ SEÇ:</p>
+                <h2 id="lobby-title">LOBİ</h2>
+                <div id="quiz-options" style="display:none; width:100%;">
                     <div class="cat-grid" id="cat-grid"></div>
                 </div>
                 <div class="conn-box">
-                    <small>KODUN:</small>
                     <div id="display-id" class="id-badge" onclick="copyID()">------</div>
                     <input type="number" id="peer-id" placeholder="RAKİP KODU">
                     <button onclick="connectToFriend()" class="btn-main">SAVAŞA KATIL</button>
@@ -45,16 +33,11 @@
                 <button onclick="location.reload()" class="btn-text">İPTAL</button>
             </div>
         </section>
-
         <section id="game-quiz" class="screen"></section>
         <section id="game-tictactoe" class="screen"></section>
         <section id="game-hafiza" class="screen"></section>
-
         <section id="result-screen" class="screen">
-            <div class="glass-card">
-                <h1 id="winner-text">BİTTİ</h1>
-                <button onclick="location.reload()" class="btn-main">MENÜYE DÖN</button>
-            </div>
+            <div class="glass-card"><h1 id="winner-text">BİTTİ</h1><button onclick="location.reload()" class="btn-main">MENÜYE DÖN</button></div>
         </section>
     </div>
     <script src="script.js"></script>
