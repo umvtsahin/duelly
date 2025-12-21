@@ -7,7 +7,7 @@ let usedQuestions = [];
 let myAttempted = false;
 let oppAttempted = false;
 
-// SESLER (Klasöründe dogru.mp3 ve yanlis.mp3 olmalı)
+// Sesler (dogru.mp3 ve yanlis.mp3 klasörde olmalı)
 const sfxCorrect = new Audio('dogru.mp3');
 const sfxWrong = new Audio('yanlis.mp3');
 
@@ -23,18 +23,25 @@ function selectCategory(catKey) {
     document.getElementById('cat-label').innerText = catKey.toUpperCase();
     document.getElementById('host-panel').style.display = 'block';
     isHost = true;
-    peer.on('connection', c => { conn = c; setupBattle(); });
+    peer.on('connection', c => { 
+        conn = c; 
+        setupBattle(); 
+    });
 }
 
 function connectToFriend() {
     const target = document.getElementById('peer-id').value;
+    if(target.length !== 6) { alert("6 haneli kodu gir kanka!"); return; }
     conn = peer.connect(target);
     conn.on('open', () => setupBattle());
 }
 
 function setupBattle() {
     showScreen('game-area');
+    
+    // VERİ DİNLEME (Emoji sorunu burada çözüldü)
     conn.on('data', data => {
+        console.log("Gelen Veri:", data.type);
         if(data.type === 'init_cat') currentBank = window[data.cat.toLowerCase() + "Data"];
         if(data.type === 'next_question') { game.round = data.round; renderQuestion(data.val); }
         if(data.type === 'point') { 
@@ -46,9 +53,10 @@ function setupBattle() {
         if(data.type === 'emoji') { showEmoji(data.val); }
         if(data.type === 'end') showResults();
     });
+
     if(isHost) {
         conn.send({ type: 'init_cat', cat: document.getElementById('cat-label').innerText });
-        hostNextRound();
+        setTimeout(hostNextRound, 1000);
     }
 }
 
@@ -90,13 +98,13 @@ function renderQuestion(q) {
         btn.onclick = () => {
             if(game.locked || myAttempted) return;
             if(opt === game.currentQ.a) {
-                sfxCorrect.play().catch(e => {}); 
+                sfxCorrect.play().catch(e=>{}); 
                 btn.style.background = "#238636";
                 game.scoreMe += 10; updateUI(); game.locked = true;
                 conn.send({ type: 'point', pts: 10 });
                 if(isHost) { game.round++; setTimeout(hostNextRound, 2000); }
             } else {
-                sfxWrong.play().catch(e => {}); 
+                sfxWrong.play().catch(e=>{}); 
                 myAttempted = true;
                 btn.style.background = "#ff007f"; btn.disabled = true;
                 conn.send({ type: 'wrong_attempt' });
@@ -106,7 +114,7 @@ function renderQuestion(q) {
         grid.appendChild(btn);
     });
 
-    // 1.5 Saniye sonra şıkları göster ve kilidi aç
+    // 1.5 Saniye gecikme
     setTimeout(() => {
         document.querySelectorAll('.opt-btn').forEach(btn => btn.classList.add('show'));
         game.locked = false;
@@ -126,6 +134,7 @@ function updateUI() {
 }
 
 function sendEmoji(emoji) {
+    if(!conn || !conn.open) return;
     showEmoji(emoji);
     conn.send({ type: 'emoji', val: emoji });
 }
@@ -163,4 +172,3 @@ function copyID() {
     btn.innerText = "KOPYALANDI!";
     setTimeout(() => btn.innerText = oldText, 2000);
 }
-function closePwa() { document.getElementById('pwa-prompt').style.display = 'none'; }
