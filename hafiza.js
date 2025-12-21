@@ -1,87 +1,18 @@
-let memCards = [];
-let flipped = [];
-let memScores = { me: 0, opp: 0 };
-let memTurn = false;
-
-function initHafiza() {
-    memScores = { me: 0, opp: 0 };
-    memTurn = isHost;
-    if(isHost) {
-        let icons = ["⚡","⚡","🔥","🔥","☀️","☀️","❄️","❄️","💧","💧","🍀","🍀"];
-        icons = icons.sort(() => Math.random() - 0.5);
-        sendData({ type: 'mem_init', cards: icons });
-        setupMem(icons);
+let mC = [], mF = [], mS = {m:0, o:0}, mT = false;
+function initHafiza() { mT=isHost; if(isHost) { let i=["A","A","B","B","C","C","D","D","E","E","F","F"].sort(()=>Math.random()-0.5); sendData({type:'h_i', c:i}); setupH(i); } }
+function setupH(c) { mC=c; mS={m:0, o:0}; renderH(); }
+function renderH() {
+    document.getElementById('game-hafiza').innerHTML = `<div>${mS.m}-${mS.o}</div><div class="mem-grid">${mC.map((v,i)=>`<div class="mem-card" id="h-${i}" onclick="flipH(${i})">?</div>`).join('')}</div>`;
+}
+function flipH(i) {
+    if(!mT || mF.length>=2 || document.getElementById('h-'+i).innerText!=="?") return;
+    document.getElementById('h-'+i).innerText=mC[i]; mF.push(i); sendData({type:'h_f', i:i});
+    if(mF.length===2) {
+        if(mC[mF[0]]===mC[mF[1]]) { mS.m++; mF=[]; if(mS.m+mS.o===6) alert("BİTTİ"); }
+        else { mT=false; setTimeout(()=>{ document.getElementById('h-'+mF[0]).innerText="?"; document.getElementById('h-'+mF[1]).innerText="?"; mF=[]; renderH(); }, 1000); }
     }
 }
-
-function setupMem(cards) {
-    memCards = cards;
-    renderMem();
-}
-
-function renderMem() {
-    const area = document.getElementById('game-hafiza');
-    area.innerHTML = `
-        <div class="top-nav">
-            <div class="score-box">SİZ: ${memScores.me}</div>
-            <div class="status-msg">${memTurn ? 'SENİN SIRAN' : 'RAKİPTE...'}</div>
-            <div class="score-box">RAKİP: ${memScores.opp}</div>
-        </div>
-        <div class="mem-grid">
-            ${memCards.map((c, i) => `<div class="mem-card" id="mc-${i}" onclick="flipMem(${i})">?</div>`).join('')}
-        </div>
-    `;
-}
-
-function flipMem(i) {
-    if(!memTurn || flipped.length >= 2 || document.getElementById('mc-'+i).innerText !== "?") return;
-    
-    document.getElementById('mc-'+i).innerText = memCards[i];
-    document.getElementById('mc-'+i).classList.add('flipped');
-    flipped.push(i);
-    sendData({ type: 'mem_flip', idx: i });
-    
-    if(flipped.length === 2) {
-        if(memCards[flipped[0]] === memCards[flipped[1]]) {
-            memScores.me++;
-            flipped = [];
-            if(memScores.me + memScores.opp === 6) showFinish("OYUN BİTTİ!");
-            renderMem();
-        } else {
-            memTurn = false;
-            setTimeout(() => {
-                document.getElementById('mc-'+flipped[0]).innerText = "?";
-                document.getElementById('mc-'+flipped[1]).innerText = "?";
-                document.getElementById('mc-'+flipped[0]).classList.remove('flipped');
-                document.getElementById('mc-'+flipped[1]).classList.remove('flipped');
-                flipped = [];
-                renderMem();
-            }, 1000);
-        }
-    }
-}
-
-function handleHafiza(msg) {
-    if(msg.type === 'mem_init') setupMem(msg.cards);
-    if(msg.type === 'mem_flip') {
-        const card = document.getElementById('mc-'+msg.idx);
-        card.innerText = memCards[msg.idx];
-        card.classList.add('flipped');
-        flipped.push(msg.idx);
-        if(flipped.length === 2) {
-            if(memCards[flipped[0]] === memCards[flipped[1]]) {
-                memScores.opp++;
-                flipped = [];
-                renderMem();
-            } else {
-                setTimeout(() => {
-                    document.getElementById('mc-'+flipped[0]).innerText = "?";
-                    document.getElementById('mc-'+flipped[1]).innerText = "?";
-                    flipped = [];
-                    memTurn = true;
-                    renderMem();
-                }, 1000);
-            }
-        }
-    }
+function handleHafiza(m) {
+    if(m.type==='h_i') setupH(m.c);
+    if(m.type==='h_f') { document.getElementById('h-'+m.i).innerText=mC[m.i]; mF.push(m.i); if(mF.length===2) { if(mC[mF[0]]===mC[mF[1]]){ mS.o++; mF=[]; } else { setTimeout(()=>{ document.getElementById('h-'+mF[0]).innerText="?"; document.getElementById('h-'+mF[1]).innerText="?"; mF=[]; mT=true; renderH(); },1000); } } }
 }
