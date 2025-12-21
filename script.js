@@ -42,7 +42,6 @@ function selectCategory(catKey) {
 function connectToFriend() {
     const target = document.getElementById('peer-id').value;
     if(target.length < 6) return;
-    // Bağlanırken manuel JSON paketleme kullanacağımızı belirtiyoruz
     conn = peer.connect(target, { serialization: 'none' }); 
     isHost = false;
     handleConnection();
@@ -58,14 +57,10 @@ function handleConnection() {
     });
 
     conn.on('data', rawData => {
-        // Gelen veri String mi yoksa Obje mi diye kontrol edip güvenle çözüyoruz
         let data;
         try {
             data = (typeof rawData === 'string') ? JSON.parse(rawData) : rawData;
-        } catch (e) {
-            console.error("Data Parse Hatası:", e);
-            return;
-        }
+        } catch (e) { return; }
 
         if(data.type === 'init_cat') currentBank = window[data.cat.toLowerCase() + "Data"];
         if(data.type === 'next_question') {
@@ -83,17 +78,13 @@ function handleConnection() {
             oppAttempted = true;
             checkBothWrong();
         }
-        if(data.type === 'emoji') {
-            showEmoji(data.val);
-        }
+        if(data.type === 'emoji') { showEmoji(data.val); }
         if(data.type === 'end') showResults();
     });
 }
 
-// BU FONKSİYON HATAYI BİTİREN KRİTİK NOKTADIR
 function safeSend(obj) {
     if(conn && conn.open) {
-        // Veriyi göndermeden önce metne çeviriyoruz (BinaryPack hatasını engeller)
         conn.send(JSON.stringify(obj));
     }
 }
