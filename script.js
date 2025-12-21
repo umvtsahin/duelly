@@ -35,9 +35,9 @@ function connectToFriend() {
 
 function listen() {
     conn.on('open', () => {
+        // Bağlantı kurulduğu an Host başlatma komutunu gönderir
         if(isHost) {
-            // Host bağlantı açıldığında karşı tarafa başlat komutu gönderir
-            setTimeout(() => sendData({type:'start', m:selectedMode, c:selectedCat}), 500);
+            setTimeout(() => sendData({type:'start', m:selectedMode, c:selectedCat}), 800);
         }
     });
     conn.on('data', d => {
@@ -47,7 +47,6 @@ function listen() {
             selectedCat = msg.c; 
             startGame(); 
         }
-        // Gelen veriyi ilgili modüle yönlendir
         if(selectedMode === 'quiz') handleQuiz(msg);
         if(selectedMode === 'tictactoe') handleTTT(msg);
         if(selectedMode === 'hafiza') handleHafiza(msg);
@@ -64,7 +63,6 @@ function startGame() {
 function sendData(o) { if(conn && conn.open) conn.send(JSON.stringify(o)); }
 function showScreen(id) { 
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    const target = document.getElementById(id);
-    if(target) target.classList.add('active');
+    document.getElementById(id).classList.add('active');
 }
-function copyID() { navigator.clipboard.writeText(myID); alert("Kopyalandı!"); }
+function copyID() { navigator.clipboard.writeText(myID); alert("Kod Kopyalandı!"); }
