@@ -1,14 +1,10 @@
-// script.js (v1.5) - AKTAŞ ISI TEKNİK
-
 let myCode, peer, conn, isHost = false, currentBank = null;
 let game = { scoreMe: 0, scoreOpp: 0, round: 1, max: 10, currentQ: null, jokerUsed: false, locked: true };
 let usedQuestions = [], myAttempted = false, oppAttempted = false;
 
-// Ses Dosyaları
 const sfxCorrect = new Audio('dogru.mp3'); 
 const sfxWrong = new Audio('yanlis.mp3');
 
-// Sayfa yüklendiğinde PeerJS kontrolü ve başlatma
 window.onload = () => {
     if (typeof Peer === 'undefined') {
         setTimeout(() => location.reload(), 1000);
@@ -22,8 +18,7 @@ function initGame() {
     peer = new Peer(myCode);
     
     peer.on('open', id => { 
-        const el = document.getElementById('display-id');
-        if(el) el.innerText = id; 
+        if(document.getElementById('display-id')) document.getElementById('display-id').innerText = id; 
     });
 
     peer.on('connection', c => {
@@ -47,7 +42,8 @@ function selectCategory(catKey) {
 function connectToFriend() {
     const target = document.getElementById('peer-id').value;
     if(target.length < 6) return;
-    conn = peer.connect(target);
+    // Bağlanırken manuel JSON paketleme kullanacağımızı belirtiyoruz
+    conn = peer.connect(target, { serialization: 'none' }); 
     isHost = false;
     handleConnection();
 }
@@ -62,41 +58,42 @@ function handleConnection() {
     });
 
     conn.on('data', rawData => {
+        // Gelen veri String mi yoksa Obje mi diye kontrol edip güvenle çözüyoruz
         let data;
         try {
             data = (typeof rawData === 'string') ? JSON.parse(rawData) : rawData;
-        } catch (e) { return; }
+        } catch (e) {
+            console.error("Data Parse Hatası:", e);
+            return;
+        }
 
         if(data.type === 'init_cat') currentBank = window[data.cat.toLowerCase() + "Data"];
-        
         if(data.type === 'next_question') {
             resetRoundState();
             game.round = data.round;
             renderQuestion(data.val);
         }
-        
         if(data.type === 'point') {
             game.scoreOpp += data.pts;
             updateUI();
             game.locked = true;
             if(isHost) { game.round++; setTimeout(hostNextRound, 2000); }
         }
-
         if(data.type === 'wrong_attempt') {
             oppAttempted = true;
             checkBothWrong();
         }
-
         if(data.type === 'emoji') {
             showEmoji(data.val);
         }
-
         if(data.type === 'end') showResults();
     });
 }
 
+// BU FONKSİYON HATAYI BİTİREN KRİTİK NOKTADIR
 function safeSend(obj) {
     if(conn && conn.open) {
+        // Veriyi göndermeden önce metne çeviriyoruz (BinaryPack hatasını engeller)
         conn.send(JSON.stringify(obj));
     }
 }
@@ -108,14 +105,11 @@ function hostNextRound() {
         showResults();
         return;
     }
-
     let diff = game.round <= 3 ? "easy" : (game.round <= 7 ? "medium" : "hard");
     let pool = currentBank[diff].filter(q => !usedQuestions.includes(q.q));
     if(pool.length === 0) pool = currentBank[diff];
-
     const q = pool[Math.floor(Math.random() * pool.length)];
     usedQuestions.push(q.q);
-
     resetRoundState();
     renderQuestion(q);
     safeSend({ type: 'next_question', val: q, round: game.round });
@@ -125,18 +119,15 @@ function resetRoundState() {
     myAttempted = false;
     oppAttempted = false;
     game.locked = true;
-    const msg = document.getElementById('msg-box');
-    if(msg) msg.innerText = ""; 
+    if(document.getElementById('msg-box')) document.getElementById('msg-box').innerText = ""; 
 }
 
 function renderQuestion(q) {
     game.currentQ = q;
     document.getElementById('question-text').innerText = q.q;
     document.getElementById('round-info').innerText = `${game.round} / ${game.max}`;
-    
     const grid = document.getElementById('options-grid');
     grid.innerHTML = "";
-
     q.options.forEach(opt => {
         const btn = document.createElement('button');
         btn.className = 'opt-btn';
@@ -162,7 +153,6 @@ function renderQuestion(q) {
         };
         grid.appendChild(btn);
     });
-
     setTimeout(() => {
         document.querySelectorAll('.opt-btn').forEach(btn => btn.classList.add('show'));
         game.locked = false;
@@ -171,8 +161,7 @@ function renderQuestion(q) {
 
 function checkBothWrong() {
     if(myAttempted && oppAttempted) {
-        const msg = document.getElementById('msg-box');
-        if(msg) msg.innerText = "KİMSE BİLEMEDİ!";
+        document.getElementById('msg-box').innerText = "KİMSE BİLEMEDİ!";
         game.locked = true;
         if(isHost) { game.round++; setTimeout(hostNextRound, 2000); }
     }
@@ -221,8 +210,6 @@ function showResults() {
 function copyID() {
     const text = document.getElementById('display-id').innerText;
     navigator.clipboard.writeText(text);
-    const btn = document.getElementById('display-id');
-    const old = btn.innerText;
-    btn.innerText = "KOPYALANDI!";
-    setTimeout(() => btn.innerText = old, 2000);
+    document.getElementById('display-id').innerText = "KOPYALANDI!";
+    setTimeout(() => document.getElementById('display-id').innerText = text, 2000);
 }
