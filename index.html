@@ -4,7 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>DUELLY</title>
-    <link rel="stylesheet" href="style.css">
+    
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="manifest" href="manifest.json">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="DUELLY">
+
+    <link rel="stylesheet" href="style.css?v=2.1">
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
     
     <script src="genelkultur.js"></script>
@@ -13,42 +22,82 @@
     <script src="bilim.js"></script>
     <script src="sinema.js"></script>
     <script src="spor.js"></script>
-
-    <script src="quiz.js"></script>
-    <script src="tictactoe.js"></script>
-    <script src="hafiza.js"></script>
 </head>
 <body>
     <div id="app">
         <section id="main-menu" class="screen active">
             <h1 class="logo">DUEL<span>LY</span></h1>
             <div class="menu-container">
-                <button onclick="openLobby('quiz')" class="menu-btn b-quiz">🧠 BİLGİ DÜELLOSU</button>
-                <button onclick="openLobby('tictactoe')" class="menu-btn b-ttt">❌ TIC TAC TOE</button>
-                <button onclick="openLobby('hafiza')" class="menu-btn b-mem">🧩 HAFIZA OYUNU</button>
+                <button onclick="showScreen('lobby-create')" class="btn-primary">ODA KUR</button>
+                <button onclick="showScreen('lobby-join')" class="btn-secondary" style="margin-top:10px">SAVAŞA KATIL</button>
             </div>
         </section>
 
-        <section id="lobby-screen" class="screen">
-            <div class="glass-card">
-                <h2 id="lobby-title">LOBİ</h2>
-                <div id="quiz-options" style="display:none; width:100%;">
-                    <p>KATEGORİ SEÇ:</p>
-                    <div class="cat-grid" id="cat-grid"></div>
+        <section id="lobby-create" class="screen">
+            <div class="card">
+                <h3>KATEGORİ SEÇ</h3>
+                <div class="category-grid">
+                    <button onclick="selectCategory('genelkultur')">GENEL KÜLTÜR</button>
+                    <button onclick="selectCategory('tarih')">TARİH</button>
+                    <button onclick="selectCategory('matematik')">MATEMATİK</button>
+                    <button onclick="selectCategory('bilim')">BİLİM</button>
+                    <button onclick="selectCategory('sinema')">SİNEMA</button>
+                    <button onclick="selectCategory('spor')">SPOR</button>
                 </div>
-                <div class="conn-box">
-                    <div id="display-id" class="id-badge" onclick="copyID()">------</div>
-                    <input type="number" id="peer-id" placeholder="RAKİP KODUNU YAZ">
-                    <button onclick="connectToFriend()" class="btn-main">SAVAŞA KATIL</button>
+                <div id="host-panel" style="display:none; margin-top:20px; border-top:1px solid #333; padding-top:20px;">
+                    <div id="display-id" class="code-text" onclick="copyID()">------</div>
+                    <p style="color:var(--primary)">Rakip bekleniyor...</p>
                 </div>
-                <button onclick="location.reload()" class="btn-text">İPTAL</button>
+                <button onclick="location.reload()" class="btn-back">Vazgeç</button>
             </div>
         </section>
 
-        <section id="game-quiz" class="screen"></section>
-        <section id="game-tictactoe" class="screen"></section>
-        <section id="game-hafiza" class="screen"></section>
+        <section id="lobby-join" class="screen">
+            <div class="card">
+                <h3>SAVAŞA KATIL</h3>
+                <div class="input-wrapper">
+                    <input type="number" id="peer-id" placeholder="000000" oninput="if(this.value.length > 6) this.value = this.value.slice(0,6);">
+                </div>
+                <button onclick="connectToFriend()" class="btn-primary" id="join-btn">BAĞLAN</button>
+                <button onclick="location.reload()" class="btn-back">Geri Dön</button>
+            </div>
+        </section>
+
+        <section id="game-area" class="screen">
+            <div class="top-nav">
+                <div class="score-card"><span class="p-label">SİZ</span><span id="my-score" class="p-val">0</span></div>
+                <div class="game-info">
+                    <div id="round-info">1 / 10</div>
+                    <div id="cat-label" class="cat-badge">KATEGORİ</div>
+                </div>
+                <div class="score-card"><span class="p-label">RAKİP</span><span id="opp-score" class="p-val">0</span></div>
+            </div>
+            <div class="question-canvas"><h2 id="question-text">Yükleniyor...</h2></div>
+            <div id="options-grid" class="options-container"></div>
+            <div class="bottom-controls">
+                <div id="msg-box" style="font-weight: bold; margin-bottom: 10px; min-height: 24px;"></div>
+                <button onclick="useJoker()" id="joker-btn" class="btn-joker">50:50 JOKERİ (1)</button>
+                <div class="emoji-bar">
+                    <button onclick="sendEmoji('😂')">😂</button>
+                    <button onclick="sendEmoji('😢')">😢</button>
+                    <button onclick="sendEmoji('😠')">😠</button>
+                    <button onclick="sendEmoji('😎')">😎</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="result-screen" class="screen">
+            <div class="card">
+                <h2 id="winner-text">OYUN BİTTİ</h2>
+                <div style="display:flex; justify-content:space-around; margin:20px 0;">
+                    <div>SİZ<br><b id="res-me" style="font-size:2rem; color:var(--primary)">0</b></div>
+                    <div>RAKİP<br><b id="res-opp" style="font-size:2rem; color:var(--secondary)">0</b></div>
+                </div>
+                <button onclick="location.reload()" class="btn-primary">TEKRAR OYNA</button>
+            </div>
+        </section>
+        <div id="emoji-display" class="emoji-popup"></div>
     </div>
-    <script src="script.js"></script>
+    <script src="script.js?v=2.1"></script>
 </body>
 </html>
