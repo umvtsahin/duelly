@@ -50,14 +50,18 @@
             </div>
         </section>
 
-        <section id="lobby-join" class="screen">
-            <div class="card">
-                <h3>SAVAŞA KATIL</h3>
-                <input type="number" id="peer-id" placeholder="6 Haneli Kod">
-                <button onclick="connectToFriend()" class="btn-primary" id="join-btn">BAĞLAN VE BAŞLA</button>
-                <button onclick="location.reload()" class="btn-back">GERİ DÖN</button>
-            </div>
-        </section>
+     <section id="lobby-join" class="screen">
+    <div class="card join-card">
+        <h3>SAVAŞA KATIL</h3>
+        <p class="sub-text">Arkadaşının 6 haneli kodunu gir</p>
+        <div class="input-wrapper">
+            <input type="number" id="peer-id" placeholder="000 000" maxlength="6">
+            <div class="input-focus-line"></div>
+        </div>
+        <button onclick="connectToFriend()" class="btn-primary" id="join-btn">BAĞLAN VE BAŞLA</button>
+        <button onclick="location.reload()" class="btn-back">Vazgeç</button>
+    </div>
+</section>
 
         <section id="game-area" class="screen">
             <div class="top-nav">
@@ -113,3 +117,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+
