@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DUELIX</title>
-    <link rel="stylesheet" href="style.css?v=1.7">
+    <title>DUELLY</title>
+    <link rel="stylesheet" href="style.css?v=1.8">
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
     <script src="genelkultur.js"></script>
     <script src="tarih.js"></script>
@@ -16,7 +16,7 @@
 <body>
     <div id="app">
         <section id="main-menu" class="screen active">
-            <h1 class="logo">DUEL<span>IX</span></h1>
+            <h1 class="logo">DUEL<span>LY</span></h1>
             <div class="menu-container" style="width: 100%; max-width: 320px;">
                 <button onclick="showScreen('lobby-create')" class="btn-primary">ODA KUR</button>
                 <button onclick="showScreen('lobby-join')" class="btn-secondary" style="margin-top:10px">SAVAŞA KATIL</button>
@@ -35,8 +35,9 @@
                     <button onclick="selectCategory('spor')">SPOR</button>
                 </div>
                 <div id="host-panel" style="display:none; margin-top:20px; border-top:1px solid #333; padding-top:20px;">
+                    <label style="color:#888; font-size: 0.8rem;">ODA KODUNUZ</label>
                     <div id="display-id" class="code-text" onclick="copyID()">------</div>
-                    <p style="color:var(--primary)">Rakip bekleniyor...</p>
+                    <p style="color:var(--primary); font-size: 0.9rem;">Rakip bekleniyor...</p>
                 </div>
                 <button onclick="location.reload()" class="btn-back">Vazgeç</button>
             </div>
@@ -62,7 +63,7 @@
                 </div>
                 <div class="score-card"><span class="p-label">RAKİP</span><span id="opp-score" class="p-val">0</span></div>
             </div>
-            <div class="question-canvas"><h2 id="question-text">Yükleniyor...</h2></div>
+            <div class="question-canvas"><h2 id="question-text">Hazırlanıyor...</h2></div>
             <div id="options-grid" class="options-container"></div>
             <div class="bottom-controls">
                 <div id="msg-box"></div>
@@ -88,6 +89,6 @@
         </section>
         <div id="emoji-display" class="emoji-popup"></div>
     </div>
-    <script src="script.js?v=1.7"></script>
+    <script src="script.js?v=1.8"></script>
 </body>
 </html>
