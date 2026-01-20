@@ -63,6 +63,33 @@
             </div>
         </section>
 
+        <section id="game-higherlower" class="screen">
+    <div class="hl-container">
+        <div class="hl-card" id="left-card">
+            <div class="hl-info">
+                <h2 id="left-name">Yükleniyor...</h2>
+                <p id="left-value" class="hl-value">0</p>
+                <p id="left-desc">Değer</p>
+            </div>
+        </div>
+
+        <div class="hl-vs-circle">VS</div>
+
+        <div class="hl-card" id="right-card">
+            <div class="hl-info">
+                <h2 id="right-name">Yükleniyor...</h2>
+                <div id="hl-controls">
+                    <button onclick="makeHLGuess('higher')" class="btn-primary">YÜKSEK ↑</button>
+                    <button onclick="makeHLGuess('lower')" class="btn-secondary">DÜŞÜK ↓</button>
+                </div>
+                <p id="right-value" class="hl-value" style="display:none;">?</p>
+                <p id="right-desc">Değer</p>
+            </div>
+        </div>
+    </div>
+    <button onclick="showScreen('main-menu')" class="btn-back">Geri Dön</button>
+</section>
+        
         <section id="game-area" class="screen">
             <div class="top-nav">
                 <div class="score-card"><span class="p-label">SİZ</span><span id="my-score" class="p-val">0</span></div>
@@ -101,3 +128,4 @@
     <script src="script.js?v=2.1"></script>
 </body>
 </html>
+
